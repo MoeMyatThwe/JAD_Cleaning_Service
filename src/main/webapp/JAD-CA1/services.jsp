@@ -1,53 +1,25 @@
-<%@ page import="java.sql.*" %>
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE html>
 <html>
 <head>
-<meta charset="UTF-8">
-<title>Our Services</title>
-<link rel="stylesheet" href="css/styles.css">
+    <title>Available Services</title>
 </head>
 <body>
-    <header>
-        <h1>Our Cleaning Services</h1>
-        <p>Select a category to view more details and pricing.</p>
-    </header>
-
-    <section>
-        <h2>Service Categories</h2>
-        <ul>
-        <% 
-                // Step 1: Load JDBC Driver
-                Class.forName("com.mysql.jdbc.Driver");  
-
-                // Step 2: Define Connection URL
-                String connURL = "jdbc:mysql://localhost/db1?user=root&password=root1234&serverTimezone=UTC";
-
-                // Step 3: Establish connection to URL
-                Connection conn = DriverManager.getConnection(connURL); 
-                
-                // Step 4: Use PreparedStatement for executing the query
-                String query = "SELECT DISTINCT category FROM services";
-                PreparedStatement ps = conn.prepareStatement(query);
-
-                // Step 5: Execute the query
-                ResultSet rs = ps.executeQuery();
-
-                // Display each category as a link
-                while (rs.next()) {
-                    String category = rs.getString("category");
-                    out.println("<li><a href='serviceDetails.jsp?category=" + category + "'>" + category + "</a></li>");
-                }
-
-                // Step 6: Close ResultSet, PreparedStatement, and Connection objects
-                rs.close();
-                ps.close();
-                conn.close();
-            %>
-           
-        </ul>
-    </section>
-
+    <h1>Our Cleaning Services</h1>
+    <table border="1">
+        <tr>
+            <th>Service Name</th>
+            <th>Description</th>
+            <th>Price</th>
+        </tr>
+        <c:forEach items="${services}" var="service">
+            <tr>
+                <td>${service.name}</td>
+                <td>${service.description}</td>
+                <td>${service.price}</td>
+            </tr>
+        </c:forEach>
+    </table>
 </body>
 </html>

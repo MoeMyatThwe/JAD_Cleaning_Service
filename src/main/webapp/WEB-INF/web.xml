@@ -1,0 +1,15 @@
+<web-app xmlns="http://java.sun.com/xml/ns/javaee" version="3.1">
+    <display-name>JAD Cleaning Service</display-name>
+    <welcome-file-list>
+        <welcome-file>home.jsp</welcome-file>
+    </welcome-file-list>
+
+    <servlet>
+        <servlet-name>ServiceServlet</servlet-name>
+        <servlet-class>com.jadcleaning.servlets.ServiceServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>ServiceServlet</servlet-name>
+        <url-pattern>/services</url-pattern>
+    </servlet-mapping>
+</web-app>
