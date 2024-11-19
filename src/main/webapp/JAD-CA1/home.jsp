@@ -24,6 +24,8 @@
     <title>Shiny Home Services</title>
     <link rel="stylesheet" href="home.css"> 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
+    
     
 </head>
 <body>
@@ -201,29 +203,47 @@
    
 
     <!-- Section 5: Contact Us -->
-    <section  id="contact-us" class="contact-section">
-        <div class="container">
-            <h2>Contact Us</h2>
-            <div class="contact-details">
+    <section id="contact-us" class="contact-section">
+    <div class="container">
+        <h2 class="section-title">Contact Us</h2>
+        <div class="contact-details">
+            <!-- Address -->
+            <div class="contact-item">
+                <i class="fas fa-map-marker-alt contact-icon"></i>
                 <div>
                     <h3>Address</h3>
                     <p>5 Yishun Industrial Street 1<br>#01-24 Northspring BizHub</p>
                 </div>
+            </div>
+            <!-- Operating Hours -->
+            <div class="contact-item">
+                <i class="fas fa-clock contact-icon"></i>
                 <div>
                     <h3>Operating Hours</h3>
                     <p>Weekdays: 9am - 6pm<br>Saturday: 9am - 6pm</p>
                 </div>
+            </div>
+            <!-- Phone -->
+            <div class="contact-item">
+                <i class="fas fa-phone contact-icon"></i>
                 <div>
                     <h3>Phone</h3>
                     <p>+65 6602 8171</p>
                 </div>
+            </div>
+            <!-- Email -->
+            <div class="contact-item">
+                <i class="fas fa-envelope contact-icon"></i>
                 <div>
                     <h3>Email</h3>
                     <p>enquiry@shiny.com<br>corporate@shiny.com</p>
                 </div>
             </div>
         </div>
-    </section>
+    </div>
+</section>
+    
+    
 
     <!-- Footer -->
     <jsp:include page="footer.html" />

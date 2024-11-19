@@ -451,12 +451,47 @@ h1, h2, h3, p {
 
 /* Contact Section */
 .contact-section {
-    padding: 50px 20px;
-    background: #fff;
+    padding: 80px 20px;
+    clip-path: ellipse(100% 80% at 50% 20%);
     text-align: center;
 }
 
+.section-title {
+    font-size: 2.5rem;
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 50px;
+}
+
+/* Contact Details */
 .contact-details {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 30px;
+    align-items: center;
+    justify-items: center;
+}
+
+.contact-item {
     display: flex;
-    justify-content: space-around;
+    align-items: center;
+    gap: 20px;
+    text-align: left;
+}
+
+.contact-icon {
+    font-size: 2rem;
+    color: #8c7b6b;
+}
+
+.contact-item h3 {
+    font-size: 1.5rem;
+    color: #333;
+    margin-bottom: 8px;
+}
+
+.contact-item p {
+    font-size: 1rem;
+    color: #555;
+    margin: 0;
 }
