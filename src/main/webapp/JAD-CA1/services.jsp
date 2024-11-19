@@ -1,11 +1,15 @@
-<%@ page import="java.sql.*, java.util.*, com.jadcleaning.util.DatabaseConnection" %>
+<%@ page import="java.sql.*, java.util.*" %>
+<%@ include file="header.jsp" %>
+<link rel="stylesheet" href="services.css">
+<link rel="stylesheet" href="home.css">
+
 
 <%
-    // Fetch data from the database
-    List<Map<String, String>> services = new ArrayList<>();
-    String sql = "SELECT s.service_name, s.description, s.price, s.image, c.category_name " +
+    String sql = "SELECT s.service_id, s.service_name, s.description, s.price, s.image, c.category_name " +
                  "FROM service s " +
                  "JOIN service_category c ON s.category_id = c.category_id";
+
+    List<Map<String, String>> services = new ArrayList<>();
 
     try (Connection conn = com.jadcleaning.util.DatabaseConnection.connect();
          PreparedStatement stmt = conn.prepareStatement(sql);
@@ -13,6 +17,7 @@
 
         while (rs.next()) {
             Map<String, String> service = new HashMap<>();
+            service.put("id", rs.getString("service_id"));
             service.put("name", rs.getString("service_name"));
             service.put("description", rs.getString("description"));
             service.put("price", String.format("%.2f", rs.getDouble("price")));
@@ -24,27 +29,20 @@
         e.printStackTrace();
     }
 %>
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Services</title>
-    <link rel="stylesheet" href="services.css"> 
-</head>
-<body>
+
+<section class="services">
     <h1>Our Specialized Services</h1>
-    <div class="service-container">
-    <% for (Map<String, String> service : services) { %>
-        <div class="service-card">
-            <img src="<%= service.get("image") %>" alt="<%= service.get("name") %>">
-            <h3><%= service.get("name") %></h3>
-            <p><%= service.get("description") %></p>
-            <p class="price">$<%= service.get("price") %></p>
-            <p class="category">Category: <%= service.get("category") %></p>
-        </div>
-    <% } %>
-</div>
-    
-</body>
-</html>
+    <div class="services-container">
+        <% for (Map<String, String> service : services) { %>
+            <div class="service-card">
+                <img src="<%= service.get("image") %>" alt="<%= service.get("name") %>">
+                <h2><%= service.get("name") %></h2>
+                <p><%= service.get("description") %></p>
+                <p>Price: $<%= service.get("price") %></p>
+                <a href="serviceDetails.jsp?service_id=<%= service.get("id") %>" class="more-info">More Info</a>
+            </div>
+        <% } %>
+    </div>
+</section>
+
+<%@ include file="footer.html" %>

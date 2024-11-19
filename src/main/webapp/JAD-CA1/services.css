@@ -1,77 +1,49 @@
-/* General Reset */
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
-
 body {
     font-family: Arial, sans-serif;
-    line-height: 1.6;
-    background-color: #f4f8fb;
-    padding: 20px;
+    margin: 0;
+    padding: 0;
 }
 
-/* Page Title */
-.page-title {
-    text-align: center;
-    color: #2a3f77;
-    font-size: 2rem;
-    margin-bottom: 30px;
-}
-
-.service-container {
+.services-container, .sub-services-container {
     display: flex;
-    flex-wrap: wrap; /* Allow wrapping to a new line */
-    gap: 20px; /* Space between items */
-    justify-content: center; /* Center items horizontally */
+    flex-wrap: wrap;
+    gap: 20px;
+    justify-content: center;
     padding: 20px;
 }
 
-.service-card {
-    flex: 1 1 calc(50% - 40px); /* Two per row on larger screens */
-    max-width: calc(50% - 40px); /* Ensure no overflow on larger screens */
-    background-color: #fff;
+.service-card, .sub-service-card {
+    border: 1px solid #ddd;
     border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    overflow: hidden;
-    text-align: left;
-    transition: transform 0.2s ease;
+    padding: 15px;
+    width: 300px;
+    text-align: center;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
-.service-card:hover {
-    transform: scale(1.05); /* Slight zoom on hover */
-}
-
-.service-card img {
+.service-card img, .sub-service-card img {
     width: 100%;
-    height: auto;
-    border-bottom: 2px solid #f0f0f0; /* Optional styling */
+    height: 200px;
+    object-fit: cover;
+    border-radius: 8px;
 }
 
-.service-card h3 {
+.service-card h3, .sub-service-card h3 {
     font-size: 1.5rem;
-    margin: 10px 15px;
     color: #333;
 }
 
-.service-card p {
-    margin: 10px 15px;
-    font-size: 1rem;
-    color: #555;
-}
-
-.service-card .price,
-.service-card .category {
-    margin: 10px 15px;
+.service-card a, .sub-service-card button {
+    display: inline-block;
+    margin-top: 10px;
+    padding: 10px 15px;
+    background-color: #3A5BA0;
+    color: white;
+    text-decoration: none;
+    border-radius: 5px;
     font-weight: bold;
-    font-size: 0.9rem;
-    color: #007BFF; /* Highlight with a primary color */
 }
 
-@media (max-width: 768px) {
-    .service-card {
-        flex: 1 1 100%; /* Single card per row on smaller screens */
-        max-width: 100%;
-    }
+.service-card a:hover, .sub-service-card button:hover {
+    background-color: #6C91D6;
 }
