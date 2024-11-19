@@ -55,6 +55,7 @@ h1, h2, h3, p {
 }
 
 .navbar a:hover {
+	color: black;
     background-color: #fff8e1;
     border-radius: 5px;
 }
