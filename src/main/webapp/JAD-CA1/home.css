@@ -26,7 +26,7 @@ h1, h2, h3, p {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    background-color: #003366;
+    background-color: #674636;
     padding: 20px 30px;
     position: sticky;
     top: 0;
@@ -186,7 +186,7 @@ h1, h2, h3, p {
 }
 
 .custom-btn {
-    background-color: #3A5BA0;
+    background-color: #835945;
     color: white; 
     border: none; 
     padding: 12px 20px;
@@ -198,12 +198,12 @@ h1, h2, h3, p {
 }
 
 .custom-btn:hover {
-    background-color: #6C91D6; 
+    background-color: #b78c77;
     transform: scale(1.05);
 }
 
 .custom-btn:active {
-    background-color: #2A4B80; 
+    background-color: #78523f;
     transform: scale(0.95);
 }
 
@@ -316,7 +316,7 @@ h1, h2, h3, p {
 
 /* Testimonials Section */
 .testimonials-section {
-    background-color: #fffcf2;
+    background-color: #fffdf4;
     height: 100vh; 
     display: flex; 
     align-items: center;
@@ -499,7 +499,7 @@ h1, h2, h3, p {
 
 /* Footer Styles */
 .footer {
-    background-color: #003366; 
+    background-color: #674636; 
     color: white;
     padding: 20px 0;
     text-align: center;

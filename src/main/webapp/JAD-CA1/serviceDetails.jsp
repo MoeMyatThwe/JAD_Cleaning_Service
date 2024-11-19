@@ -32,7 +32,10 @@
 %>
 
 <section class="service-details">
+    
+    <div class="title-container">
     <h1>Service Details</h1>
+    </div>
     <div class="sub-services-container">
         <% for (Map<String, String> subService : subServices) { %>
             <div class="sub-service-card">
@@ -44,7 +47,12 @@
             </div>
         <% } %>
     </div>
-    <a href="services.jsp" class="back-button">Back to Services</a>
+    <div class="back-to-services">
+    <a href="services.jsp">
+        <span class="back-arrow">&larr;</span> Back to Services
+    </a>
+</div>
+    
 </section>
 
 <%@ include file="footer.html" %>

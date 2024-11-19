@@ -31,7 +31,10 @@
 %>
 
 <section class="services">
+    <div class="title-container">
     <h1>Our Specialized Services</h1>
+    </div>
+    
     <div class="services-container">
         <% for (Map<String, String> service : services) { %>
             <div class="service-card">
