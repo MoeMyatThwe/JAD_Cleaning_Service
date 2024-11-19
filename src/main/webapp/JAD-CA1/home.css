@@ -123,7 +123,7 @@ h1, h2, h3, p {
     font-weight: bold; 
     border-radius: 25px; 
     cursor: pointer;
-    transition: background-color 0.3s ease, transform 0.2s ease; /* Smooth hover effect */
+    transition: background-color 0.3s ease, transform 0.2s ease;
 }
 
 .custom-btn:hover {
@@ -136,28 +136,114 @@ h1, h2, h3, p {
     transform: scale(0.95);
 }
 
-/* Leaders Section */
+/* Leaders Section(section2) */
 .leaders-section {
-    padding: 50px 20px;
-    text-align: center;
-    background: #fff;
+    background-color: #f9f9f9; 
+    height: 100vh; 
+    display: flex; 
+    align-items: center;
+    padding: 100px 20px;
 }
 
+.leaders-section .container {
+    max-width: 1200px;
+    margin: auto; /* Center horizontally */
+    text-align: left;
+}
+
+.leaders-section h2 {
+    font-size: 2.5rem;
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 30px;
+}
+
+.leaders-section p {
+    font-size: 1.2rem;
+    line-height: 1.8;
+    color: #555;
+    margin-bottom: 40px;
+}
+
+.leaders-section .btn {
+    background-color: #8c7b6b; /* Button color */
+    color: #fff;
+    font-weight: bold;
+    border-radius: 5px;
+    padding: 12px 20px;
+    transition: background-color 0.3s ease;
+}
+
+.leaders-section .btn:hover {
+    background-color: #6c5a4b; 
+}
+
+/* Service Highlights */
 .service-highlights {
-    display: flex;
-    justify-content: space-around;
-    margin-top: 20px;
+    display: flex; 
+    gap: 30px; 
+    justify-content: space-between;
+    margin-top: 40px;
 }
 
 .highlight {
+    flex: 1; 
+    background-color: #fff;
+    border: 1px solid #ddd;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    padding: 20px;
     text-align: center;
-    width: 45%;
+    border-radius: 8px; 
+    max-width: 250px;
 }
 
 .highlight img {
-    width: 50px;
-    height: 50px;
+    width: 80px;
+    height: auto; 
+    margin-bottom: 15px;
+    border-radius: 10px;
 }
+
+.highlight h4 {
+    font-size: 1.2rem;
+    font-weight: bold;
+    color: #333;
+    margin-top: 15px;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .service-highlights {
+        flex-direction: column; 
+    }
+
+    .highlight {
+        width: 100%; 
+        margin-bottom: 15px;
+    }
+
+    .highlight img {
+        width: 60px; 
+    }
+}
+
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .leaders-section h2 {
+        font-size: 2rem;
+    }
+
+    .highlight img {
+        width: 50px; 
+    }
+
+    .highlight h4 {
+        font-size: 0.9rem;
+    }
+}
+
+
 
 /* Testimonials */
 .testimonials-section {

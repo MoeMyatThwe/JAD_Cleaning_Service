@@ -22,6 +22,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Shiny Home Services</title>
     <link rel="stylesheet" href="home.css"> 
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    
 </head>
 <body>
     <!-- Navbar -->
@@ -72,23 +74,41 @@
     
 
     <!-- Section 2: Leaders in Professional Cleaning -->
-    <section class="leaders-section">
-        <div class="container">
-            <h2>Leaders in Professional Cleaning Services in Singapore</h2>
-            <p>Shiny’s years of experience have positioned us as leaders in professional cleaning services. We encompass a full range of deep cleaning and sanitation solutions for residential and corporate spaces. Our singular aim is to enhance your environment to a superior state of cleanliness and hygiene.</p>
-            <div class="service-highlights">
-                <div class="highlight">
-                    <img src="assets/safety-icon.png" alt="Safety Icon">
-                    <h3>Safety of Cleaning Agents</h3>
-                </div>
-                <div class="highlight">
-                    <img src="assets/cleaning-operation-icon.png" alt="Cleaning Icon">
-                    <h3>An Extraordinary Cleaning Operation</h3>
+		<section class="leaders-section py-5">
+    <div class="container">
+        <!-- Left Column: Text and Button -->
+        <div class="row align-items-center">
+            <div class="col-md-6">
+                <h2 class="mb-4">Leaders in Professional Cleaning Services in Singapore</h2>
+                <p class="mb-4 text-muted">
+                    Shiny’s years of experience have positioned us as the leaders in professional cleaning services in Singapore. 
+                    We encompass a full range of deep cleaning and sanitation solutions for residential and corporate spaces. 
+                    Our singular aim is to enhance your environment to a superior state of cleanliness and hygiene.
+                </p>
+                 <a href="#contact-us" class="btn btn-outline-dark px-4 py-2">Contact Us</a>
+            </div>
+
+            <!-- Right Column: Highlights -->
+            <div class="col-md-6">
+                <div class="service-highlights d-flex">
+                    <!-- Highlight 1 -->
+                    <div class="highlight">
+                        <img src="/JAD_Cleaning_Service_CA1/JAD-CA1/gallery/spray_img1.jpg" alt="Safety Icon">
+                        <h4>Safety of Cleaning Agents</h4>
+                    </div>
+                    <!-- Highlight 2 -->
+                    <div class="highlight">
+                        <img src="/JAD_Cleaning_Service_CA1/JAD-CA1/gallery/clean_home1.png" alt="Cleaning Icon">
+                        <h4>An Extraordinary Cleaning Operation</h4>
+                    </div>
                 </div>
             </div>
-            <a href="about.jsp" class="btn">About Us</a>
         </div>
-    </section>
+    </div>
+</section>
+		
+
+
 
     <!-- Section 3: Customer Testimonials -->
     <section class="testimonials-section">
@@ -134,7 +154,7 @@
     </section>
 
     <!-- Section 5: Contact Us -->
-    <section class="contact-section">
+    <section  id="contact-us" class="contact-section">
         <div class="container">
             <h2>Contact Us</h2>
             <div class="contact-details">
