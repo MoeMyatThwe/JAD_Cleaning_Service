@@ -28,8 +28,24 @@
 <body>
     <!-- Navbar -->
     <nav>
+    <div class="navbar-container">
+        <!-- Logo and Brand Name -->
+        <div class="logo">
+            <a href="home.jsp">
+                <img src="/JAD_Cleaning_Service_CA1/JAD-CA1/gallery/ShinyLogo.jpg" alt="Shiny Logo">
+                Shiny
+            </a>
+        </div>
+
+        <!-- Hamburger Menu Icon -->
+        <div class="hamburger-menu" onclick="toggleMenu()">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+
+        <!-- Navbar Links -->
         <ul class="navbar">
-            <li><a href="home.jsp">Shiny</a></li>
             <li><a href="home.jsp">Home</a></li>
             <li><a href="services.jsp">Services</a></li>
             <% if ("admin".equals(role)) { %>
@@ -48,7 +64,9 @@
                 <li><a href="login.jsp">Login</a></li>
             <% } %>
         </ul>
-    </nav>
+    </div>
+</nav>
+    
 
     <!-- Welcome Section -->
     <section class="welcome-section">
@@ -59,7 +77,6 @@
                 Welcome to Shiny Home Services!
             <% } %>
         </h1>
-        <p>Your trusted partner for professional cleaning services.</p>
     </section>
     
     <!-- Hero Section -->
@@ -106,31 +123,51 @@
         </div>
     </div>
 </section>
-		
-
-
-
+	
     <!-- Section 3: Customer Testimonials -->
     <section class="testimonials-section">
-        <div class="container">
-            <h2>Hear What Our Customers Have to Say</h2>
-            <p>Trusted by both local and expat communities, we are rated 4.7/5 stars on Google by over 2,600+ users!</p>
-            <div class="testimonial-cards">
-                <div class="testimonial">
-                    <p>"Shiny’s cleaners are professional and reliable. They’ve made my life so much easier!"</p>
-                    <span>@happy_customer</span>
-                </div>
-                <div class="testimonial">
-                    <p>"The deep cleaning service was exceptional. My home looks brand new. Highly recommended!"</p>
-                    <span>@clean_home_owner</span>
-                </div>
-                <div class="testimonial">
-                    <p>"I’m so glad I found Shiny! They are fast, efficient, and always leave my house spotless."</p>
-                    <span>@busy_professional</span>
-                </div>
+    <div class="container">
+        <!-- Heading -->
+        <h2 class="section-title">Hear What Our Customers Have to Say</h2>
+        <p class="section-subtitle">
+            Trusted by both local & expat communities, we are rated 4.7/5 stars on Google by over 2,600+ users!
+        </p>
+
+        <!-- Testimonial Cards -->
+        <div class="testimonials">
+            <!-- Testimonial 1 -->
+            <div class="testimonial-card">
+                <img src="/JAD_Cleaning_Service_CA1/JAD-CA1/gallery/verify.png" alt="Review Icon" class="review-icon">
+                <p class="testimonial-text">
+                    “All pretty mummies need time for their hair and nails, right? I’m so happy that I found a part-time cleaner. She frees up so much of my weekends!”
+                </p>
+                <span class="customer-name">@midiforreal</span>
+                <div class="rating">★★★★★</div>
+            </div>
+
+            <!-- Testimonial 2 -->
+            <div class="testimonial-card">
+                <img src="/JAD_Cleaning_Service_CA1/JAD-CA1/gallery/verify.png" alt="Review Icon" class="review-icon">
+                <p class="testimonial-text">
+                    “I’ve worked with many helpers before. They go through training, so the quality is consistent. Highly recommend them!”
+                </p>
+                <span class="customer-name">@keweitay</span>
+                <div class="rating">★★★★★</div>
+            </div>
+
+            <!-- Testimonial 3 -->
+            <div class="testimonial-card">
+                <img src="/JAD_Cleaning_Service_CA1/JAD-CA1/gallery/verify.png" alt="Review Icon" class="review-icon">
+                <p class="testimonial-text">
+                    “No housework means more time for work! My house is squeaky clean every week. So happy with the service!”
+                </p>
+                <span class="customer-name">@miss_luxe</span>
+                <div class="rating">★★★★★</div>
             </div>
         </div>
-    </section>
+    </div>
+</section>
+    
 
     <!-- Section 4: Benefits for Your Organization -->
     <section class="benefits-section">
