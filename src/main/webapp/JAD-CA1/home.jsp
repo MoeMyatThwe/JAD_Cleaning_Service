@@ -15,6 +15,7 @@
         redirectURL = "register.jsp";
     }
 %>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -169,26 +170,35 @@
 </section>
     
 
-    <!-- Section 4: Benefits for Your Organization -->
-    <section class="benefits-section">
-        <div class="container">
-            <h2>The Benefits for Your Organization</h2>
-            <div class="benefit-cards">
-                <div class="benefit">
-                    <h3>Increased Efficiency</h3>
-                    <p>Automating the booking process removes manual coordination and saves time.</p>
-                </div>
-                <div class="benefit">
-                    <h3>Better Service</h3>
-                    <p>Instant appointment booking eliminates back-and-forth communication hassles.</p>
-                </div>
-                <div class="benefit">
-                    <h3>Decreased No-shows</h3>
-                    <p>Automatic reminders ensure appointments are not forgotten or missed.</p>
-                </div>
+   <!-- Section 4: Benefits for Your Organization -->
+<!-- Section 4: Benefits for Your Organization -->
+<section class="benefits-section">
+    <div class="container">
+        <h2 class="section-title">The Benefits for Your Organization</h2>
+        <div class="benefit-cards">
+            <!-- Benefit Card 1 -->
+            <div class="benefit-card">
+                <img src="/JAD_Cleaning_Service_CA1/JAD-CA1/gallery/efficiency.png" alt="Efficiency Icon" class="benefit-icon">
+                <h3>Increased Efficiency</h3>
+                <p>Automating the booking process removes manual coordination and saves time.</p>
+            </div>
+            <!-- Benefit Card 2 -->
+            <div class="benefit-card">
+                <img src="/JAD_Cleaning_Service_CA1/JAD-CA1/gallery/betterService.png" alt="Service Icon" class="benefit-icon">
+                <h3>Better Service</h3>
+                <p>Instant appointment booking eliminates back-and-forth communication hassles.</p>
+            </div>
+            <!-- Benefit Card 3 -->
+            <div class="benefit-card">
+                <img src="/JAD_Cleaning_Service_CA1/JAD-CA1/gallery/reminder.png" alt="reminder Icon" class="benefit-icon">
+                <h3>Decreased No-shows</h3>
+                <p>Automatic reminders ensure appointments are not forgotten or missed.</p>
             </div>
         </div>
-    </section>
+    </div>
+</section>
+
+   
 
     <!-- Section 5: Contact Us -->
     <section  id="contact-us" class="contact-section">
