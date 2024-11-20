@@ -1,7 +1,7 @@
 package com.cleaningService.dao;
 
-import com.jadcleaning.model.SubService;
-import com.jadcleaning.util.DatabaseConnection;
+import com.cleaningService.model.SubService;
+import com.cleaningService.util.DatabaseConnection;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;

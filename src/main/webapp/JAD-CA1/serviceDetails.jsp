@@ -4,7 +4,7 @@
 <link rel="stylesheet" href="home.css">
 
 <%
-    String serviceId = request.getParameter("service_id");
+String serviceId = request.getParameter("service_id");
 
     String sql = "SELECT ss.sub_service_id, ss.sub_service_name, ss.description, ss.price, ss.image " +
                  "FROM sub_service ss " +
@@ -12,13 +12,13 @@
 
     List<Map<String, String>> subServices = new ArrayList<>();
 
-    try (Connection conn = com.jadcleaning.util.DatabaseConnection.connect();
+    try (Connection conn = com.cleaningService.util.DatabaseConnection.connect();
          PreparedStatement stmt = conn.prepareStatement(sql)) {
         stmt.setInt(1, Integer.parseInt(serviceId));
         try (ResultSet rs = stmt.executeQuery()) {
             while (rs.next()) {
                 Map<String, String> subService = new HashMap<>();
-                subService.put("id", rs.getString("sub_service_id")); // Add sub_service_id
+                subService.put("id", rs.getString("sub_service_id")); 
                 subService.put("name", rs.getString("sub_service_name"));
                 subService.put("description", rs.getString("description"));
                 subService.put("price", String.format("%.2f", rs.getDouble("price")));
@@ -43,7 +43,7 @@
                 <p><%= subService.get("description") %></p>
                 <p>Price: $<%= subService.get("price") %></p>
                 <!-- Use the sub_service_id here -->
-              <a href="bookAppointment.jsp?sub_service_id=<%= subService.get("id") %>" class="btn-book-now">Book Now</a>
+              <a href="bookingDetails.jsp?sub_service_id=<%= subService.get("id") %>" class="btn-book-now">Book Now</a>
               
                
             </div>

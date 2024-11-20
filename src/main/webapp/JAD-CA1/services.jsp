@@ -4,14 +4,14 @@
 <link rel="stylesheet" href="home.css">
 
 <%
-    // SQL query to fetch all services
+// SQL query to fetch all services
     String sql = "SELECT s.service_id, s.service_name, s.description, s.price, s.image, c.category_name " +
                  "FROM service s " +
                  "JOIN service_category c ON s.category_id = c.category_id";
 
     List<Map<String, String>> services = new ArrayList<>(); // This is for top-level services
 
-    try (Connection conn = com.jadcleaning.util.DatabaseConnection.connect();
+    try (Connection conn = com.cleaningService.util.DatabaseConnection.connect();
          PreparedStatement stmt = conn.prepareStatement(sql);
          ResultSet rs = stmt.executeQuery()) {
 

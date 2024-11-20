@@ -1,4 +1,4 @@
-package com.jadcleaning.model;
+package com.cleaningService.model;
 
 public class SubService {
     private int id;

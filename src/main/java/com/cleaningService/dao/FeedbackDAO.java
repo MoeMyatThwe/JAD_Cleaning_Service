@@ -4,7 +4,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
-import com.jadcleaning.util.DatabaseConnection;
+import com.cleaningService.util.DatabaseConnection;
 public class FeedbackDAO {
 	public boolean addFeedback(int userId, int serviceId, String comments) {
 	    String sql = "INSERT INTO feedback (user_id, service_id, comments) VALUES (?, ?, ?)";

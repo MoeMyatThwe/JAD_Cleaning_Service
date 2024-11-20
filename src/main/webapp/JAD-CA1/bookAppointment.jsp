@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ page import="com.cleaningService.dao.SubServiceDAO" %>
-<%@ page import="com.jadcleaning.model.SubService" %>
+<%@ page import="com.cleaningService.model.SubService" %>
 <%
     String subServiceIdParam = request.getParameter("sub_service_id");
     if (subServiceIdParam == null || subServiceIdParam.isEmpty()) {

@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" session="true" %>
 <%@ page import="com.cleaningService.dao.UserDAO" %>
-<%@ page import="com.jadcleaning.model.User" %>
+<%@ page import="com.cleaningService.model.User" %>
 
 <!DOCTYPE html>
 <html>
