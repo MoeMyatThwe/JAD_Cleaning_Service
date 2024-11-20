@@ -1,15 +1,22 @@
-<web-app xmlns="http://java.sun.com/xml/ns/javaee" version="3.1">
-    <display-name>JAD Cleaning Service</display-name>
+<web-app xmlns="https://jakarta.ee/xml/ns/jakartaee"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="https://jakarta.ee/xml/ns/jakartaee https://jakarta.ee/xml/ns/jakartaee/web-app_6_0.xsd"
+         version="6.0">
+
+    <display-name>JAD_Cleaning_Service_CA1</display-name>
+
+    <!-- Welcome File List -->
     <welcome-file-list>
-        <welcome-file>home.jsp</welcome-file>
+        <welcome-file>index.html</welcome-file>
+        <welcome-file>index.htm</welcome-file>
+        <welcome-file>index.jsp</welcome-file>
+        <welcome-file>default.html</welcome-file>
+        <welcome-file>default.htm</welcome-file>
+        <welcome-file>default.jsp</welcome-file>
     </welcome-file-list>
 
-    <servlet>
-        <servlet-name>ServiceServlet</servlet-name>
-        <servlet-class>com.jadcleaning.servlets.ServiceServlet</servlet-class>
-    </servlet>
-    <servlet-mapping>
-        <servlet-name>ServiceServlet</servlet-name>
-        <url-pattern>/services</url-pattern>
-    </servlet-mapping>
+    <!-- Session Timeout Configuration -->
+    <session-config>
+        <session-timeout>30</session-timeout> <!-- Timeout in minutes -->
+    </session-config>
 </web-app>

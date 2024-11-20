@@ -1,8 +1,8 @@
 <%@ page session="true" %>
 <%
-    // Retrieve user details from session
-    String username = session != null ? (String) session.getAttribute("username") : null;
-    String role = session != null ? (String) session.getAttribute("role") : null; // Possible values: "admin", "member", or null
+Integer userId = (Integer) session.getAttribute("userId"); // Retrieve user ID from session
+String username = (String) session.getAttribute("username");
+String role = (String) session.getAttribute("role"); // Retrieve role from session
 %>
 <header>
     <nav>

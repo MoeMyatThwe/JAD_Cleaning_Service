@@ -1,15 +1,15 @@
+<%@ include file="header.jsp" %> 
 <%@ page import="java.sql.*, java.util.*" %>
-<%@ include file="header.jsp" %>
 <link rel="stylesheet" href="services.css">
 <link rel="stylesheet" href="home.css">
 
-
 <%
+    // SQL query to fetch all services
     String sql = "SELECT s.service_id, s.service_name, s.description, s.price, s.image, c.category_name " +
                  "FROM service s " +
                  "JOIN service_category c ON s.category_id = c.category_id";
 
-    List<Map<String, String>> services = new ArrayList<>();
+    List<Map<String, String>> services = new ArrayList<>(); // This is for top-level services
 
     try (Connection conn = com.jadcleaning.util.DatabaseConnection.connect();
          PreparedStatement stmt = conn.prepareStatement(sql);
@@ -32,7 +32,7 @@
 
 <section class="services">
     <div class="title-container">
-    <h1>Our Specialized Services</h1>
+        <h1>Our Specialized Services</h1>
     </div>
     
     <div class="services-container">
@@ -42,7 +42,7 @@
                 <h2><%= service.get("name") %></h2>
                 <p><%= service.get("description") %></p>
                 <p>Price: $<%= service.get("price") %></p>
-                <a href="serviceDetails.jsp?service_id=<%= service.get("id") %>" class="more-info">More Info</a>
+                <a href="serviceDetails.jsp?service_id=<%= service.get("id") %>" class="btn btn-primary">More Info</a>
             </div>
         <% } %>
     </div>
