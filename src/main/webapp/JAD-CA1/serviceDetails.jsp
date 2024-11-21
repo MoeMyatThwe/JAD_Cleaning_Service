@@ -43,7 +43,7 @@ String serviceId = request.getParameter("service_id");
                 <p><%= subService.get("description") %></p>
                 <p>Price: $<%= subService.get("price") %></p>
                 <!-- Use the sub_service_id here -->
-              <a href="bookingDetails.jsp?sub_service_id=<%= subService.get("id") %>" class="btn-book-now">Book Now</a>
+              <a href="bookingDetails.jsp?service_id=<%=serviceId %>&sub_service_id=<%= subService.get("id") %>" class="btn-book-now">Book Now</a>
               
                
             </div>

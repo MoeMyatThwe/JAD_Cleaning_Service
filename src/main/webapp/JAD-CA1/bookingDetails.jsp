@@ -80,37 +80,47 @@
         </form>
 
         <!-- Handle Form Submission -->
-        <%
-        if ("POST".equalsIgnoreCase(request.getMethod())) {
-            if (userId == null) {
-                out.println("<p style='color:red;'>You need to log in to book a service.</p>");
-                return;
-            }
+<%
+if ("POST".equalsIgnoreCase(request.getMethod())) {
+    if (userId == null) {
+        out.println("<p style='color:red;'>You need to log in to book a service.</p>");
+        return;
+    }
 
-            String date = request.getParameter("date");
-            String time = request.getParameter("time");
-            String duration = request.getParameter("duration");
-            String serviceAddress = request.getParameter("serviceAddress");
-            String specialRequest = request.getParameter("specialRequest");
+    String serviceId = request.getParameter("service_id");
+    String subServiceIdParam = request.getParameter("sub_service_id");
+    String date = request.getParameter("date");
+    String time = request.getParameter("time");
+    String duration = request.getParameter("duration");
+    String serviceAddress = request.getParameter("serviceAddress");
+    String specialRequest = request.getParameter("special_request");
 
-            BookingDAO bookingDAO = new BookingDAO();
-            boolean isSuccess = bookingDAO.createBooking(
-                userId,
-                Integer.parseInt(subServiceId),
-                date,
-                time,
-                Integer.parseInt(duration),
-                serviceAddress,
-                specialRequest
-            );
+    // Null checks and default values
+    int parsedServiceId = serviceId != null && !serviceId.isEmpty() ? Integer.parseInt(serviceId) : 0;
+    int parsedSubServiceId = subServiceIdParam != null && !subServiceIdParam.isEmpty() ? Integer.parseInt(subServiceIdParam) : 0;
+    int parsedDuration = duration != null && !duration.isEmpty() ? Integer.parseInt(duration) : 1; // Default duration: 1
 
-            if (isSuccess) {
-                out.println("<p style='color:green;'>Booking successfully created!</p>");
-            } else {
-                out.println("<p style='color:red;'>Failed to create booking. Please try again later.</p>");
-            }
-        }
-        %>
+    BookingDAO bookingDAO = new BookingDAO();
+    boolean isSuccess = bookingDAO.createBooking(
+        userId,
+        parsedServiceId,
+        parsedSubServiceId,
+        date,
+        time,
+        parsedDuration,
+        serviceAddress,
+        specialRequest
+    );
+
+    if (isSuccess) {
+        out.println("<p style='color:green;'>Booking successfully created!</p>");
+    } else {
+        out.println("<p style='color:red;'>Failed to create booking. Please try again later.</p>");
+    }
+}
+%>
+
+       
     </div>
 </body>
 </html>

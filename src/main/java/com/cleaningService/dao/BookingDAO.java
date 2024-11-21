@@ -1,26 +1,32 @@
 package com.cleaningService.dao;
 
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.sql.Time;
 
 import com.cleaningService.util.DatabaseConnection;
 
 public class BookingDAO {
-    public boolean createBooking(int userId, int subServiceId, String date, String time, int duration, String serviceAddress, String specialRequest) {
-        String sql = "INSERT INTO booking (user_id, sub_service_id, date, time, duration, service_address, special_request, created_at) " +
-                     "VALUES (?, ?, ?, ?, ?, ?, ?, CURRENT_TIMESTAMP)";
+    public boolean createBooking(int userId, int serviceId, int subServiceId, String date, String time, int duration, String serviceAddress, String specialRequest) {
+        String sql = "INSERT INTO booking (user_id, service_id, sub_service_id, date, time, duration, service_address, special_request) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
 
         try (Connection connection = DatabaseConnection.connect();
              PreparedStatement statement = connection.prepareStatement(sql)) {
 
+            // Parse date and time strings
+            Date sqlDate = Date.valueOf(date); // Converts String to java.sql.Date
+            Time sqlTime = Time.valueOf(time + ":00"); // Converts String to java.sql.Time (adds seconds)
+
             statement.setInt(1, userId);
-            statement.setInt(2, subServiceId);
-            statement.setString(3, date);
-            statement.setString(4, time);
-            statement.setInt(5, duration);
-            statement.setString(6, serviceAddress);
-            statement.setString(7, specialRequest);
+            statement.setInt(2, serviceId);
+            statement.setInt(3, subServiceId);
+            statement.setDate(4, sqlDate);
+            statement.setTime(5, sqlTime);
+            statement.setInt(6, duration);
+            statement.setString(7, serviceAddress);
+            statement.setString(8, specialRequest);
 
             int rowsInserted = statement.executeUpdate();
             return rowsInserted > 0;
