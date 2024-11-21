@@ -67,7 +67,7 @@
                             e.printStackTrace();
                         }
 
-                        String address = (String) item.getOrDefault("address", "Not specified");
+                        String address = (String) item.getOrDefault("serviceAddress", "Not specified");
                         String specialRequest = (String) item.getOrDefault("specialRequest", "NA");
                         int duration = Integer.parseInt(item.getOrDefault("duration", "1").toString());
             %>
