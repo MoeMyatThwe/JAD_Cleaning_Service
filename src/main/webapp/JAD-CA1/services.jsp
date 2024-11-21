@@ -32,7 +32,7 @@
 
 <section class="services">
     <div class="title-container">
-        <h1>Our Specialized Services</h1>
+        <h1>Service Categories</h1>
     </div>
     
     <div class="services-container">
@@ -41,7 +41,6 @@
                 <img src="<%= service.get("image") %>" alt="<%= service.get("name") %>">
                 <h2><%= service.get("name") %></h2>
                 <p><%= service.get("description") %></p>
-                <p>Price: $<%= service.get("price") %></p>
                 <a href="serviceDetails.jsp?service_id=<%= service.get("id") %>" class="btn btn-primary">More Info</a>
             </div>
         <% } %>
