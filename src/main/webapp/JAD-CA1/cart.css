@@ -6,7 +6,7 @@ body {
 }
 
 .cart-container {
-    width: 80%;
+    width: 60%;
     margin: 50px auto;
     padding: 20px;
     background-color: #fff8e1;
@@ -51,8 +51,8 @@ body {
 }
 
 .cart-item-image img {
-    width: 120px;
-    height: 120px;
+    width: 150px;
+    height: 150px;
     object-fit: cover;
     border-radius: 8px;
     border: 1px solid #dcdcdc;

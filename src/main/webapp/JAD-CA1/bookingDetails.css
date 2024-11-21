@@ -89,3 +89,26 @@ textarea {
     justify-content: space-between; /* Align buttons side by side */
     margin-top: 20px;
 }
+
+.btn {
+    display: inline-block;
+    padding: 10px 20px;
+    font-size: 16px;
+    color: #fff;
+    background-color: #6b4f3e; /* Brown color */
+    border: none;
+    border-radius: 5px;
+    text-align: center;
+    text-decoration: none;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.btn:hover {
+    background-color: #8c6a56; /* Slightly lighter brown for hover */
+}
+
+.btn.view-cart-btn {
+    margin-top: 10px; /* Optional: Add spacing */
+}
+

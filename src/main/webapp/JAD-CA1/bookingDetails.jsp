@@ -113,8 +113,8 @@
 	    }
 	    cart.add(booking);
 	    session.setAttribute("cart", cart);
-	
-	    out.println("<p style='color:green;'>Added to cart. <a href='cart.jsp'>View Cart</a></p>");
+
+	    out.println("<p>Added to cart. <a href='cart.jsp' class='btn view-cart-btn'>View Cart</a></p>");
 	}
 	%>
         

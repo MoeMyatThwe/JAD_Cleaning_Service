@@ -5,17 +5,39 @@
 <html>
 <head>
     <title>Cart</title>
-    <link rel="stylesheet" href="cart.css">
     <link rel="stylesheet" href="home.css">
+    <link rel="stylesheet" href="cart.css">
+    <script>
+        // JavaScript to calculate subtotal and count selected items dynamically
+        function updateSummary() {
+            const checkboxes = document.querySelectorAll('.cart-checkbox');
+            const prices = document.querySelectorAll('.cart-price');
+            const serviceCount = document.getElementById('serviceCount');
+            const subtotalElement = document.getElementById('subtotal');
+            
+            let subtotal = 0;
+            let selectedCount = 0;
+
+            checkboxes.forEach((checkbox, index) => {
+                if (checkbox.checked) {
+                    subtotal += parseFloat(prices[index].innerText.replace('$', ''));
+                    selectedCount++;
+                }
+            });
+
+            serviceCount.innerText = selectedCount;
+            subtotalElement.innerText = `$${subtotal.toFixed(2)}`;
+        }
+    </script>
 </head>
 <body>
     <div class="cart-container">
-        <h1 class="cart-header">Order Summary</h1>
+        <h1 class="cart-header">My Cart</h1>
+        <p class="service-info">You have selected <span id="serviceCount">0</span> service(s) for checkout.</p>
         <form method="post" action="checkout.jsp">
             <%
                 // Retrieve the cart from the session
                 List<Map<String, Object>> cart = (List<Map<String, Object>>) session.getAttribute("cart");
-                double total = 0.0;
 
                 if (cart == null || cart.isEmpty()) {
             %>
@@ -45,24 +67,21 @@
                             e.printStackTrace();
                         }
 
-                        // Other details from the session
                         String address = (String) item.getOrDefault("address", "Not specified");
                         String specialRequest = (String) item.getOrDefault("specialRequest", "NA");
                         int duration = Integer.parseInt(item.getOrDefault("duration", "1").toString());
-
-                        total += price;
             %>
             <!-- Individual Cart Item -->
             <div class="cart-item">
                 <div class="cart-item-left">
-                    <input type="checkbox" name="selectedItems" value="<%= i %>" class="cart-checkbox">
+                    <input type="checkbox" name="selectedItems" value="<%= i %>" class="cart-checkbox" onchange="updateSummary()">
                     <div class="cart-item-image">
                         <img src="<%= image %>" alt="<%= subServiceName %>">
                     </div>
                 </div>
                 <div class="cart-item-details">
                     <h2><%= subServiceName %></h2>
-                    <p>Price: $<%= String.format("%.2f", price) %></p>
+                    <p class="cart-price">$<%= String.format("%.2f", price) %></p>
                     <p>Duration: <%= duration %> hours</p>
                     <p>Address: <%= address %></p>
                     <p>Special Request: <%= specialRequest %></p>
@@ -77,10 +96,13 @@
             %>
             <!-- Cart Summary -->
             <div class="cart-summary">
-                <p class="total-price">Subtotal: $<%= String.format("%.2f", total) %></p>
-                <button type="submit" class="checkout-btn">Proceed to Checkout</button>
+                <button type="submit" name="checkout" value="true" class="checkout-btn">Checkout</button>
             </div>
         </form>
     </div>
+    <script>
+        // Initialize subtotal and service count calculation on page load
+        document.addEventListener('DOMContentLoaded', updateSummary);
+    </script>
 </body>
 </html>
