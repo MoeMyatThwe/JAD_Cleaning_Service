@@ -37,6 +37,7 @@ String role = (String) session.getAttribute("role"); // Retrieve role from sessi
                     <li><a href="register.jsp">Register</a></li>
                 <% } %>
                 <% if (username != null) { %>
+                    <li><a href="cart.jsp">Cart</a></li>
                     <li><a href="logout.jsp">Logout</a></li>
                 <% } else { %>
                     <li><a href="login.jsp">Login</a></li>
