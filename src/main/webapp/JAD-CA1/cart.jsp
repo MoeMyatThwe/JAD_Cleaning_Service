@@ -8,7 +8,6 @@
     <link rel="stylesheet" href="home.css">
     <link rel="stylesheet" href="cart.css">
     <script>
-       
         function updateSummary() {
             const checkboxes = document.querySelectorAll('.cart-checkbox');
             const prices = document.querySelectorAll('.cart-price');
@@ -46,7 +45,7 @@
         <p class="service-info">You have selected <span id="serviceCount">0</span> service(s) for checkout.</p>
         <form method="post">
             <%
-              
+                // Retrieve the cart from the session
                 List<Map<String, Object>> cart = (List<Map<String, Object>>) session.getAttribute("cart");
 
                 if (cart == null || cart.isEmpty()) {
@@ -63,7 +62,8 @@
                         double price = 0.0;
 
                         try (Connection conn = DatabaseConnection.connect();
-                             PreparedStatement stmt = conn.prepareStatement("SELECT sub_service_name, image, price FROM sub_service WHERE sub_service_id = ?")) {
+                             PreparedStatement stmt = conn.prepareStatement(
+                                 "SELECT sub_service_name, image, price FROM sub_service WHERE sub_service_id = ?")) {
                             stmt.setInt(1, subServiceId);
                             try (ResultSet rs = stmt.executeQuery()) {
                                 if (rs.next()) {
@@ -109,90 +109,70 @@
             %>
             <!-- Cart Summary -->
             <div class="cart-summary">
+                <p>Subtotal: <span id="subtotal">$0.00</span></p>
                 <button type="submit" name="checkout" value="true" class="checkout-btn" onclick="validateCheckout(event)">Checkout</button>
             </div>
         </form>
         <%
-if ("POST".equalsIgnoreCase(request.getMethod())) {
-    // Retrieve the cart from the session
+            if ("POST".equalsIgnoreCase(request.getMethod())) {
+                // Handle checkout
+                if (request.getParameter("checkout") != null) {
+                    String[] selectedItems = request.getParameterValues("selectedItems");
 
-    if (cart == null) {
-        cart = new ArrayList<>();
-    }
+                    if (selectedItems != null && selectedItems.length > 0) {
+                        for (String index : selectedItems) {
+                            int itemIndex = Integer.parseInt(index);
+                            Map<String, Object> bookedItem = cart.get(itemIndex);
 
-    if (request.getParameter("checkout") != null) {
-        // Handle checkout logic
-        String[] selectedItems = request.getParameterValues("selectedItems");
-        if (selectedItems != null) {
-            List<Integer> indicesToRemove = new ArrayList<>();
+                            if (bookedItem == null || 
+                                bookedItem.get("subServiceId") == null || 
+                                bookedItem.get("serviceId") == null) {
+                                continue; // Skip invalid entries
+                            }
 
-            for (String index : selectedItems) {
-                int itemIndex = Integer.parseInt(index);
-                indicesToRemove.add(itemIndex);
+                            try (Connection conn = DatabaseConnection.connect();
+                                 PreparedStatement stmt = conn.prepareStatement(
+                                     "INSERT INTO booking (user_id, sub_service_id, service_id, special_request, created_at) " +
+                                     "VALUES (?, ?, ?, ?, CURRENT_TIMESTAMP)")) {
+                                stmt.setInt(1, userId);
+                                stmt.setInt(2, Integer.parseInt(bookedItem.get("subServiceId").toString()));
+                                stmt.setInt(3, Integer.parseInt(bookedItem.get("serviceId").toString()));
+                                stmt.setString(4, bookedItem.get("specialRequest").toString());
+                                stmt.executeUpdate();
+                            } catch (SQLException e) {
+                                e.printStackTrace();
+                                out.println("<p style='color:red;'>Error saving booking: " + e.getMessage() + "</p>");
+                                continue;
+                            }
+                        }
 
-                Map<String, Object> bookedItem = cart.get(itemIndex);
+                        // Remove checked-out items from the cart
+                        for (int i = selectedItems.length - 1; i >= 0; i--) {
+                            int itemIndex = Integer.parseInt(selectedItems[i]);
+                            cart.remove(itemIndex);
+                        }
+                        session.setAttribute("cart", cart);
+                        response.sendRedirect("serviceHistory.jsp");
+                        return;
+                    } else {
+                        out.println("<p style='color:red;'>No items selected for checkout.</p>");
+                    }
+                }
 
-                // Safely retrieve values with default fallbacks
-                Integer subServiceId = bookedItem.get("subServiceId") != null
-                        ? Integer.parseInt(bookedItem.get("subServiceId").toString())
-                        : -1;
-                Integer serviceId = bookedItem.get("serviceId") != null
-                        ? Integer.parseInt(bookedItem.get("serviceId").toString())
-                        : -1;
-                String specialRequest = bookedItem.get("specialRequest") != null
-                        ? bookedItem.get("specialRequest").toString()
-                        : "No special request";
-                String date = bookedItem.get("date") != null
-                        ? bookedItem.get("date").toString()
-                        : "0000-00-00";
-                String time = bookedItem.get("time") != null
-                        ? bookedItem.get("time").toString()
-                        : "00:00:00";
-
-                // Avoid database insertion if keys are missing
-                if (subServiceId != -1 && serviceId != -1) {
-                    try (Connection conn = DatabaseConnection.connect();
-                         PreparedStatement stmt = conn.prepareStatement(
-                                 "INSERT INTO booking (user_id, sub_service_id, service_id, special_request, created_at) VALUES (?, ?, ?, ?, CURRENT_TIMESTAMP)")) {
-                        stmt.setInt(1, userId);
-                        stmt.setInt(2, subServiceId);
-                        stmt.setInt(3, serviceId);
-                        stmt.setString(4, specialRequest);
-                        stmt.executeUpdate();
-                    } catch (SQLException e) {
-                        e.printStackTrace();
+                // Handle item removal
+                if (request.getParameter("remove") != null) {
+                    int removeIndex = Integer.parseInt(request.getParameter("remove"));
+                    if (cart != null && !cart.isEmpty() && removeIndex >= 0 && removeIndex < cart.size()) {
+                        cart.remove(removeIndex);
+                        session.setAttribute("cart", cart);
+                        response.sendRedirect("cart.jsp");
                     }
                 }
             }
-
-            // Remove checked items from the cart (in reverse order to prevent index shifting)
-            indicesToRemove.sort(Collections.reverseOrder());
-            for (int index : indicesToRemove) {
-                cart.remove(index);
-            }
-
-            // Update session and redirect
-            session.setAttribute("cart", cart);
-            response.sendRedirect("serviceHistory.jsp");
-        } else {
-            out.println("<p style='color:red;'>Please select at least one service to checkout.</p>");
-        }
-    }
-
-    if (request.getParameter("remove") != null) {
-        // Handle Remove from Cart logic
-        int removeIndex = Integer.parseInt(request.getParameter("remove"));
-        if (removeIndex >= 0 && removeIndex < cart.size()) {
-            cart.remove(removeIndex);
-        }
-        session.setAttribute("cart", cart);
-        response.sendRedirect("cart.jsp");
-    }
-}
-%>
-        
+        %>
     </div>
     <script>
+        // Initialize subtotal and service count calculation on page load
         document.addEventListener('DOMContentLoaded', updateSummary);
     </script>
 </body>

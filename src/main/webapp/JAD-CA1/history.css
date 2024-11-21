@@ -1,0 +1,75 @@
+/* General container styling */
+.history-container {
+    max-width: 800px;
+    margin: 40px auto;
+    padding: 20px;
+    background-color: #fff8e7; /* Light cream background */
+    border-radius: 15px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Header styling */
+.history-container h1 {
+    font-family: 'Poppins', sans-serif;
+    font-size: 28px;
+    text-align: center;
+    color: #623a2a; /* Dark brown */
+    margin-bottom: 20px;
+}
+
+/* History items */
+.history-item {
+    background-color: #fff; /* White card background */
+    border: 2px solid #f7d5bb; /* Subtle border matching theme */
+    border-radius: 10px;
+    padding: 15px;
+    margin-bottom: 20px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.history-item:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+/* Service name */
+.history-item h2 {
+    font-family: 'Poppins', sans-serif;
+    font-size: 20px;
+    color: #623a2a;
+    margin-bottom: 10px;
+}
+
+/* Text details */
+.history-item p {
+    font-family: 'Roboto', sans-serif;
+    font-size: 16px;
+    color: #3e2723; /* Rich brown for text */
+    margin: 5px 0;
+}
+
+.history-item .give-feedback-btn {
+    background-color: #6b4226 !important; /* Ensure this color is applied */
+    color: #ffffff !important; /* Ensure text color is applied */
+    font-size: 16px;
+    font-weight: 600;
+    border: none;
+    border-radius: 10px;
+    padding: 10px 20px;
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.2s;
+    text-align: center;
+    display: inline-block; /* Ensure proper alignment */
+    text-decoration: none;
+}
+
+.history-item .give-feedback-btn:hover {
+    background-color: #5a371f !important;
+    transform: scale(1.05);
+}
+
+.history-item .give-feedback-btn:active {
+    background-color: #4c2e19 !important;
+    transform: scale(0.95);
+}
