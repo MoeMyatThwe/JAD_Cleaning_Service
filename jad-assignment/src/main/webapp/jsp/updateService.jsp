@@ -57,26 +57,36 @@
     <% if("POST".equalsIgnoreCase(request.getMethod())){
     	String serviceName = request.getParameter("serviceName");
         String description = request.getParameter("description");
+        String updatedCategoryStr =  request.getParameter("category");
         double price = Double.parseDouble(request.getParameter("price"));
-        int categoryId = Integer.parseInt(request.getParameter("categoryId"));
-        
-        System.out.print(serviceName);
+        int categoryId = Integer.parseInt(updatedCategoryStr);
 
         // Create a Service object with updated values
+        
         Service serviceToUpdate = new Service();
+        serviceToUpdate.setId(serviceId);
         serviceToUpdate.setName(serviceName);
         serviceToUpdate.setDescription(description);
         serviceToUpdate.setPrice(price);
         serviceToUpdate.setCategory_id(categoryId);
-
+        
         // Update the service in the database using ServiceDAO
         boolean isUpdated = serviceDAO.updateService(serviceToUpdate);
 
         // Provide feedback to the user
         if (isUpdated) {
-            out.println("<p>Service updated successfully!</p>");
+        	%>
+        	<script>
+	            alert("Service updated Successfully.");
+	           	window.location.href("adminRetrieveSerces.jsp");
+           	</script>
+           	<%
         } else {
-            out.println("<p>Failed to update the service.</p>");
+        	%>
+        	<script>
+            	alert("<p>Failed to update the service.</p>");
+            </script>
+           	<%
         }
     }
         

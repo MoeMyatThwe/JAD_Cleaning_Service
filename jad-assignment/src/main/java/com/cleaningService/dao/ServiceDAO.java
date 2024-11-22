@@ -90,6 +90,7 @@ public class ServiceDAO {
 		}catch(SQLException e){
 			e.printStackTrace();
 		}
+		System.out.print(isServiceRegistered);
 		return isServiceRegistered;
 	}
 	
@@ -139,7 +140,7 @@ public class ServiceDAO {
 		try(Connection connection = DBConnection.getConnection();
 				PreparedStatement stmt = connection.prepareStatement(sql)){
 			stmt.setString(1, service.getName());
-			stmt.setString(2, service.getName());
+			stmt.setString(2, service.getDescription());
 			stmt.setDouble(3, service.getPrice());
 			stmt.setInt(4, service.getCategory_id());
 			stmt.setInt(5, service.getId());
