@@ -27,7 +27,7 @@
 }
 
 .service-summary img {
-    max-width: 100%; /* Restrict image width */
+    max-width: 100%;
     height: auto;
     margin-top: 10px;
     border-radius: 8px;
