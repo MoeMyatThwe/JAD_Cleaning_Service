@@ -104,7 +104,10 @@ public class ServiceDAO {
 			statement.setInt(1, id);
 			
 			int result = statement.executeUpdate();
-			isDeleted = result > 0;
+			if(result > 0) {
+				isDeleted = true;
+			}
+			
 		}catch(SQLException e) {
 			e.printStackTrace();
 		}

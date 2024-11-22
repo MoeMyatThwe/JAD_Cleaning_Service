@@ -1,8 +1,10 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+    <%@ page import = "jakarta.servlet.http.HttpSession" %>
     <%@ page import = "com.cleaningService.model.Category" %> 
     <%@ page import = "com.cleaningService.model.Service" %> 
     <%@ page import = "com.cleaningService.dao.ServiceDAO" %>
+    <%@ page import = "com.cleaningService.dao.CategoryDAO" %>
     <%@page import = "java.util.List" %>
 <!DOCTYPE html>
 <html>
@@ -13,18 +15,23 @@
 <body>
 <div class="container">
 <%
-	String serviceIdStr = request.getParameter("serviceId");
-	int serviceId = Integer.parseInt(serviceIdStr);
-    		
+	HttpSession userSession = request.getSession();
+	Integer serviceId =(Integer) userSession.getAttribute("serviceId");
+	System.out.println(serviceId + "here");
+	if (serviceId == null) {
+	    out.println("<script>alert('No service selected.'); location.href='adminRetrieveService.jsp';</script>");
+	}
 	ServiceDAO serviceDAO = new ServiceDAO();
+	CategoryDAO categoryDAO = new CategoryDAO();
 	Service service = new Service();
 	service = serviceDAO.retrieveServiceById(serviceId);
 	
+	System.out.print(service.getPrice());
 %>
         <h2>Update Service</h2>
 
         <!-- The form to update service details -->
-        <form method="POST">
+        <form method="post" action="<%=request.getContextPath() %>/UpdateServiceServlet">
             
             
             <label for="serviceName">Service Name</label>
@@ -40,7 +47,7 @@
     		<select id="category" name="category" required>
 		        <option value="">-- Select a Category --</option>
 		        <%
-		            List<Category> categories = serviceDAO.getAllCategory();
+		            List<Category> categories = categoryDAO.getAllCategory();
 		            for(Category category: categories){
 		            %>
 		                <option value="<%= category.getId() %>"><%= category.getCategoryName() %></option>
@@ -52,45 +59,10 @@
 
             <input type="submit" value="Update Service">
         </form>
+        
     </div>
     
-    <% if("POST".equalsIgnoreCase(request.getMethod())){
-    	String serviceName = request.getParameter("serviceName");
-        String description = request.getParameter("description");
-        String updatedCategoryStr =  request.getParameter("category");
-        double price = Double.parseDouble(request.getParameter("price"));
-        int categoryId = Integer.parseInt(updatedCategoryStr);
-
-        // Create a Service object with updated values
-        
-        Service serviceToUpdate = new Service();
-        serviceToUpdate.setId(serviceId);
-        serviceToUpdate.setName(serviceName);
-        serviceToUpdate.setDescription(description);
-        serviceToUpdate.setPrice(price);
-        serviceToUpdate.setCategory_id(categoryId);
-        
-        // Update the service in the database using ServiceDAO
-        boolean isUpdated = serviceDAO.updateService(serviceToUpdate);
-
-        // Provide feedback to the user
-        if (isUpdated) {
-        	%>
-        	<script>
-	            alert("Service updated Successfully.");
-	           	window.location.href("adminRetrieveSerces.jsp");
-           	</script>
-           	<%
-        } else {
-        	%>
-        	<script>
-            	alert("<p>Failed to update the service.</p>");
-            </script>
-           	<%
-        }
-    }
-        
-    %>
+    
     <a href="serviceList.jsp">Go back to the service list</a>
 </body>
 </html>

@@ -10,14 +10,13 @@
 </head>
 <body>
 <%
-    String idStr = request.getParameter("serviceId");
+	HttpSession userSession = request.getSession();
+	Integer serviceId =(Integer) userSession.getAttribute("serviceId");
     
-    if (idStr != null && !idStr.isEmpty()) {
+    if (serviceId != null) {
         try {
-            int id = Integer.parseInt(idStr); // Convert the serviceId to integer
-
             ServiceDAO serviceDAO = new ServiceDAO();
-            boolean isDeleted = serviceDAO.deleteService(id);
+            boolean isDeleted = serviceDAO.deleteService(serviceId);
 
             if (isDeleted) {
                 out.println("<p>Service deleted successfully.</p>");
