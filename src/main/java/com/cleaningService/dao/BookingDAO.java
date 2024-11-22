@@ -15,9 +15,9 @@ public class BookingDAO {
         try (Connection connection = DatabaseConnection.connect();
              PreparedStatement statement = connection.prepareStatement(sql)) {
 
-            // Parse date and time strings
-            Date sqlDate = Date.valueOf(date); // Converts String to java.sql.Date
-            Time sqlTime = Time.valueOf(time + ":00"); // Converts String to java.sql.Time (adds seconds)
+         
+            Date sqlDate = Date.valueOf(date); 
+            Time sqlTime = Time.valueOf(time + ":00"); 
 
             statement.setInt(1, userId);
             statement.setInt(2, serviceId);
