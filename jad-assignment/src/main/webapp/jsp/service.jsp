@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ page import="com.cleaningService.dao.ServiceDAO" %>
+<%@ page import="com.cleaningService.dao.CategoryDAO" %>
 <%@ page import="com.cleaningService.model.Service" %>
 <%@ page import="com.cleaningService.model.Category" %>
 <%@ page import="java.util.List" %>
@@ -15,6 +16,9 @@
 <body>
 <%
     ServiceDAO serviceDAO = new ServiceDAO();
+	CategoryDAO categoryDAO = new CategoryDAO();
+
+
     
     if("POST".equalsIgnoreCase(request.getMethod())){
     	try{
@@ -56,7 +60,7 @@
     <select id="category" name="category" required>
         <option value="">-- Select a Category --</option>
         <%
-            List<Category> categories = serviceDAO.getAllCategory();
+            List<Category> categories = categoryDAO.getAllCategory();
             for(Category category: categories){
             %>
                 <option value="<%= category.getId() %>"><%= category.getCategoryName() %></option>

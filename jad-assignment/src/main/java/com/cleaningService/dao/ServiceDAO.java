@@ -7,7 +7,6 @@ import java.sql.ResultSet;
 import java.util.*;
 
 import com.cleaningService.model.Service;
-import com.cleaningService.model.Category;
 import com.cleaningService.util.DBConnection;
 
 public class ServiceDAO {
@@ -71,7 +70,7 @@ public class ServiceDAO {
 
 	// Method for creating service
 	public boolean createService(Service service) {
-		boolean isServiceRegistered = false;
+		boolean isServiceCreated = false;
 		String sql = "INSERT INTO service(service_name, description, price, category_id, image) VALUES (?, ?, ?, ?, ?)";
 		
 		try(Connection connection = DBConnection.getConnection();
@@ -85,35 +84,15 @@ public class ServiceDAO {
 		
 			int rowsInserted = statement.executeUpdate();
 			if(rowsInserted > 0) {
-				isServiceRegistered = true;
+				isServiceCreated = true;
 			}
 		}catch(SQLException e){
 			e.printStackTrace();
 		}
-		System.out.print(isServiceRegistered);
-		return isServiceRegistered;
+		return isServiceCreated;
 	}
 	
-	// Method for retrieving category
-	public List<Category> getAllCategory(){
-		List<Category>categories = new ArrayList();
-		String sql = "SELECT * FROM service_category";
-		
-		try(Connection connection  = DBConnection.getConnection();
-				PreparedStatement statement = connection.prepareStatement(sql);
-			ResultSet rs = statement.executeQuery()){
-				while(rs.next()) {
-					Category ctg = new Category(0, sql);
-					ctg.setId(rs.getInt("category_id"));
-					ctg.setCategoryName(rs.getString("category_name"));
-					categories.add(ctg);
-				}
-			}catch(SQLException e){
-				e.printStackTrace();
-			}
-		
-		return categories;
-	}
+	
 	
 	// Method for deleting service
 	public boolean deleteService(int id) {
