@@ -1,0 +1,159 @@
+package com.cleaningService.dao;
+
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
+import java.sql.ResultSet;
+import java.util.*;
+
+import com.cleaningService.model.Service;
+import com.cleaningService.model.Category;
+import com.cleaningService.util.DBConnection;
+
+public class ServiceDAO {
+	
+	// Method for retrieving service
+	public List<Service> retrieveService() {
+		List<Service>services = new ArrayList();
+		String sql = "SELECT * FROM service";
+		
+		try(Connection connection = DBConnection.getConnection();
+				PreparedStatement stmt = connection.prepareStatement(sql);
+			ResultSet rs = stmt.executeQuery()){
+			while(rs.next()) {
+				Service service = new Service(0, null, null, 0, 0, null);
+				service.setId(rs.getInt("service_id"));
+				service.setName(rs.getString("service_name"));
+				service.setDescription(rs.getString("description"));
+				service.setPrice(rs.getDouble("price"));
+				service.setCategory_id(rs.getInt("category_id"));
+				service.setImage(rs.getString("image"));
+				
+				services.add(service);
+			}
+		}catch(SQLException e) {
+			e.printStackTrace();
+		}
+		return services;
+	}
+
+	// Method for retrieving service by id
+	public Service retrieveServiceById(int id) {
+	    Service service = new Service();
+	    String sql = "SELECT * FROM service WHERE service_id = ?"; // Ensure column name is correct
+
+	    try (Connection connection = DBConnection.getConnection();
+	         PreparedStatement stmt = connection.prepareStatement(sql)) {
+
+	        // Set the parameter for the query
+	        stmt.setInt(1, id);
+
+	        // Execute the query
+	        ResultSet rs = stmt.executeQuery();
+	        
+	        if (rs.next()) {
+	            // Map the result set to the service object
+	            service.setId(rs.getInt("service_id"));
+	            service.setName(rs.getString("service_name"));
+	            service.setDescription(rs.getString("description"));
+	            service.setPrice(rs.getDouble("price"));
+	            service.setCategory_id(rs.getInt("category_id"));
+	        } else {
+	            // Handle case where service is not found
+	            System.out.println("No service found with ID " + id);
+	        }
+
+	    } catch (SQLException e) {
+	        e.printStackTrace();
+	    }
+	    return service;
+	}
+
+	// Method for creating service
+	public boolean createService(Service service) {
+		boolean isServiceRegistered = false;
+		String sql = "INSERT INTO service(service_name, description, price, category_id, image) VALUES (?, ?, ?, ?, ?)";
+		
+		try(Connection connection = DBConnection.getConnection();
+			PreparedStatement statement = connection.prepareStatement(sql)){
+			
+			statement.setString(1, service.getName());
+			statement.setString(2, service.getDescription());
+			statement.setDouble(3, service.getPrice());
+			statement.setInt(4, service.getCategory_id());
+			statement.setString(5, service.getImage());
+		
+			int rowsInserted = statement.executeUpdate();
+			if(rowsInserted > 0) {
+				isServiceRegistered = true;
+			}
+		}catch(SQLException e){
+			e.printStackTrace();
+		}
+		return isServiceRegistered;
+	}
+	
+	// Method for retrieving category
+	public List<Category> getAllCategory(){
+		List<Category>categories = new ArrayList();
+		String sql = "SELECT * FROM service_category";
+		
+		try(Connection connection  = DBConnection.getConnection();
+				PreparedStatement statement = connection.prepareStatement(sql);
+			ResultSet rs = statement.executeQuery()){
+				while(rs.next()) {
+					Category ctg = new Category(0, sql);
+					ctg.setId(rs.getInt("category_id"));
+					ctg.setCategoryName(rs.getString("category_name"));
+					categories.add(ctg);
+				}
+			}catch(SQLException e){
+				e.printStackTrace();
+			}
+		
+		return categories;
+	}
+	
+	// Method for deleting service
+	public boolean deleteService(int id) {
+		boolean isDeleted = false;
+		
+		String sql = "DELETE FROM service WHERE service_id=?";
+		try(Connection connection = DBConnection.getConnection()){
+			PreparedStatement statement = connection.prepareStatement(sql);
+			statement.setInt(1, id);
+			
+			int result = statement.executeUpdate();
+			isDeleted = result > 0;
+		}catch(SQLException e) {
+			e.printStackTrace();
+		}
+		
+		return isDeleted;
+	}
+	
+	// Method for updating service
+	public boolean updateService(Service service){
+		boolean isUpdated = false;
+		String sql = "UPDATE service SET service_name = ?, description = ?, price = ?, category_id = ? WHERE service_id = ?";
+		try(Connection connection = DBConnection.getConnection();
+				PreparedStatement stmt = connection.prepareStatement(sql)){
+			stmt.setString(1, service.getName());
+			stmt.setString(2, service.getName());
+			stmt.setDouble(3, service.getPrice());
+			stmt.setInt(4, service.getCategory_id());
+			stmt.setInt(5, service.getId());
+			
+			int rowsAffected = stmt.executeUpdate();
+			
+			if(rowsAffected > 0) {
+				isUpdated = true;
+			}
+			
+		}catch(SQLException e) {
+			e.printStackTrace();
+		}
+		return isUpdated;
+	}
+
+}
