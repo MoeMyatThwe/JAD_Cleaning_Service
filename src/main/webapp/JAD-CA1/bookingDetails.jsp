@@ -11,11 +11,13 @@
     <title>Booking Details</title>
     <link rel="stylesheet" href="home.css">
     <link rel="stylesheet" href="services.css">
-    <link rel="stylesheet" href="bookingDetails.css"> <!-- External CSS -->
+    <link rel="stylesheet" href="bookingDetails.css"> 
 </head>
 <body>
     <div class="booking-container">
         <%
+        String serviceId = request.getParameter("service_id");
+        
         // User ID is already fetched in header.jsp, so no need to redeclare
         if (userId == null) {
             out.println("<p style='color:red;'>You need to log in to book a service.</p>");
@@ -65,28 +67,32 @@
         </div>
 
         <!-- Booking Form -->
-	        <form method="post">
-	    <input type="hidden" name="sub_service_id" value="<%= subServiceId %>">
-	    <label for="date">Select Date:</label>
-	    <input type="date" name="date" required>
-	
-	    <label for="time">Select Time:</label>
-	    <input type="time" name="time" required>
-	
-	    <label for="duration">Duration (in hours):</label>
-	    <input type="number" name="duration" min="1" required>
-	
-	    <label for="serviceAddress">Service Address:</label>
-	    <input type="text" name="serviceAddress" placeholder="Enter your address" required>
-	
-	    <label for="specialRequest">Special Requests (optional):</label>
-	    <textarea name="specialRequest" rows="4"></textarea>
-	
-	    <div class="buttons-container">
-	        <a href="serviceDetails.jsp" class="btn back-btn">Back to Services</a>
-	        <button type="submit" class="btn">Add to Cart</button>
-	    </div>
-	</form>
+			<form method="post">
+		        <input type="hidden" name="service_id" value="<%= serviceId %>">
+                <input type="hidden" name="sub_service_id" value="<%= subServiceId %>">
+		        
+			    
+			    <label for="date">Select Date:</label>
+			    <input type="date" name="date" required>
+			    
+			    <label for="time">Select Time:</label>
+			    <input type="time" name="time" required>
+			    
+			    <label for="duration">Duration (in hours):</label>
+			    <input type="number" name="duration" min="1" required>
+			    
+			    <label for="serviceAddress">Service Address:</label>
+			    <input type="text" name="serviceAddress" placeholder="Enter your address" required>
+			    
+			    <label for="specialRequest">Special Requests (optional):</label>
+			    <textarea name="specialRequest" rows="4"></textarea>
+			    
+			    <div class="buttons-container">
+			        <a href="serviceDetails.jsp" class="btn back-btn">Back to Services</a>
+			        <button type="submit" class="btn">Add to Cart</button>
+			    </div>
+			</form>
+
 	
 	<%
 	if ("POST".equalsIgnoreCase(request.getMethod())) {
@@ -98,6 +104,7 @@
 	
 	    // Create a booking map
 	    Map<String, String> booking = new HashMap<>();
+	    booking.put("serviceId", serviceId);
 	    booking.put("subServiceId", subServiceId);
 	    booking.put("subServiceName", subServiceName);
 	    booking.put("date", date);
@@ -112,9 +119,13 @@
 	        cart = new ArrayList<>();
 	    }
 	    cart.add(booking);
-	    session.setAttribute("cart", cart);
-
-	    out.println("<p>Added to cart. <a href='cart.jsp' class='btn view-cart-btn'>View Cart</a></p>");
+	    session.setAttribute("cart", cart);%>
+	    <% 
+	    List<Map<String, String>> subServices = new ArrayList<>();
+	    for (Map<String, String> subService : subServices) { %>
+	    out.println("<p>Added to cart. <a href='cart.jsp?service_id=" + serviceId + "&sub_service_id=" + subService.get("id") + "' class='btn view-cart-btn'>View Cart</a></p>");
+	       <% } %>
+	       <%
 	}
 	%>
         
