@@ -6,6 +6,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import com.cleaningService.model.Category;
 
 import com.cleaningService.model.Category;
 import com.cleaningService.util.DBConnection;
@@ -33,6 +34,31 @@ public class CategoryDAO{
 		
 		return categories;
 	}
+	
+	// Method for retrieving category
+
+		public Category retrieveCategoryById(int categoryId){
+			Category ctg = new Category();
+			String sql = "SELECT * FROM service_category WHERE category_id=?";
+			
+			try(Connection connection  = DBConnection.getConnection();
+					PreparedStatement statement = connection.prepareStatement(sql)){
+				statement.setInt(1, categoryId);
+				ResultSet rs = statement.executeQuery();
+				if(rs.next()) {
+					ctg.setId(rs.getInt("category_id"));
+					ctg.setCategoryName(rs.getString("category_name"));
+				}else {
+		            // Handle case where service is not found
+		            System.out.println("No service found with ID " + categoryId);
+		        }
+					
+			}catch(SQLException e){
+				e.printStackTrace();
+			}
+			
+			return ctg;
+		}
 	
 	// Method for creating category
 	public boolean createCategory(String categoryName) {

@@ -35,8 +35,7 @@
             <tr>
                 <td><%= category.getCategoryName() %></td>
                 <td>
-                    <button class="btn-update" onclick="location.href='updateService.jsp
-                    <%userSession.setAttribute("categoryId", category.getId()); %>'">Update</button>
+                    <button class="btn-update" onclick="location.href='updateCategory.jsp<%userSession.setAttribute("categoryId", category.getId()); %>'">Update</button>
                     <button class="btn-delete" onclick="if(confirm('Are you sure you want to delete this service?')) location.href='deleteCategory.jsp<%userSession.setAttribute("categoryId", category.getId()); %>'">Delete</button>
                 </td>
             </tr>

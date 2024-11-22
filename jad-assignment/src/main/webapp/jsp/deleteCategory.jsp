@@ -12,7 +12,6 @@
 <%
 HttpSession userSession = request.getSession();
 Integer categoryId =(Integer) userSession.getAttribute("categoryId");
-System.out.print(categoryId);
 
 if(categoryId == null){
 	%>
