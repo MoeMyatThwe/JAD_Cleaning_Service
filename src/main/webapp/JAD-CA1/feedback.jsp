@@ -1,6 +1,6 @@
-<%@ include file="header.jsp" %>
+<%@ include file="header.jsp" %> 
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" session="true" %>
-<%@ page import="java.sql.*, com.cleaningService.util.DatabaseConnection" %>
+<%@ page import="java.sql.*, com.cleaningService.util.DatabaseConnection, com.cleaningService.dao.FeedbackDAO" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -30,7 +30,7 @@
         String serviceName = "";
         String subServiceName = "";
 
-        // Fetch service details for context
+        // Fetch service and sub-service names
         try (Connection conn = DatabaseConnection.connect();
              PreparedStatement stmt = conn.prepareStatement(
                      "SELECT s.service_name, ss.sub_service_name " +
@@ -38,7 +38,6 @@
                      "INNER JOIN service s ON ss.service_id = s.service_id " +
                      "WHERE ss.sub_service_id = ?")) {
             stmt.setInt(1, Integer.parseInt(subServiceId));
-
             try (ResultSet rs = stmt.executeQuery()) {
                 if (rs.next()) {
                     serviceName = rs.getString("service_name");
@@ -49,33 +48,62 @@
             out.println("<p style='color:red;'>Error fetching service details: " + e.getMessage() + "</p>");
             return;
         }
+
+        // Display success or error messages
+        String message = (String) request.getAttribute("message");
+        if (message != null) {
+            out.println("<p style='color:green;'>" + message + "</p>");
+        }
+
+        String error = (String) request.getAttribute("error");
+        if (error != null) {
+            out.println("<p style='color:red;'>" + error + "</p>");
+        }
         %>
 
         <!-- Feedback Form -->
         <form method="post">
-            <p>Service: <%= serviceName %> - <%= subServiceName %></p>
-            <label for="feedback">Your Feedback:</label><br>
-            <textarea id="feedback" name="feedback" rows="4" cols="50" required></textarea><br>
-            <button type="submit" class="submit-btn">Submit Feedback</button>
-        </form>
-        <%
-        if ("POST".equalsIgnoreCase(request.getMethod())) {
-            String feedback = request.getParameter("feedback");
+    <p>Service: <%= serviceName %> - <%= subServiceName %></p>
+    <input type="hidden" name="bookingId" value="<%= bookingId %>">
+    <input type="hidden" name="subServiceId" value="<%= subServiceId %>">
 
-            try (Connection conn = DatabaseConnection.connect();
-                 PreparedStatement stmt = conn.prepareStatement(
-                         "INSERT INTO feedback (user_id, service_id, comments) VALUES (?, ?, ?)")) {
-                stmt.setInt(1, userId);
-                stmt.setInt(2, Integer.parseInt(subServiceId));
-                stmt.setString(3, feedback);
-                stmt.executeUpdate();
+    <label for="rating">Rate the Service:</label><br>
+    <div class="star-rating">
+        <input type="radio" id="star5" name="rating" value="5"><label for="star5">★</label>
+        <input type="radio" id="star4" name="rating" value="4"><label for="star4">★</label>
+        <input type="radio" id="star3" name="rating" value="3"><label for="star3">★</label>
+        <input type="radio" id="star2" name="rating" value="2"><label for="star2">★</label>
+        <input type="radio" id="star1" name="rating" value="1" required><label for="star1">★</label>
+    </div>
 
-                out.println("<p style='color:green;'>Thank you for your feedback!</p>");
-            } catch (SQLException e) {
-                out.println("<p style='color:red;'>Error saving feedback: " + e.getMessage() + "</p>");
-            }
-        }
-        %>
+    <label for="feedback">Your Feedback:</label><br>
+    <textarea id="feedback" name="feedback" rows="4" cols="50" required></textarea><br>
+
+    <button type="submit" class="submit-btn">Submit Feedback</button>
+</form>
+        
+
+     <%
+if ("POST".equalsIgnoreCase(request.getMethod())) {
+    String feedback = request.getParameter("feedback");
+    int rating = Integer.parseInt(request.getParameter("rating"));
+
+    // Convert bookingId and subServiceId to integers
+    int bookingIdInt = Integer.parseInt(request.getParameter("bookingId"));
+    int subServiceIdInt = Integer.parseInt(request.getParameter("subServiceId"));
+
+    FeedbackDAO feedbackDAO = new FeedbackDAO();
+    boolean isSuccess = feedbackDAO.addFeedback(userId, bookingIdInt, subServiceIdInt, feedback, rating);
+
+    if (isSuccess) {
+        out.println("<p style='color:green;'>Thank you for your feedback!</p>");
+    } else {
+        out.println("<p style='color:red;'>Error saving feedback. Please try again.</p>");
+    }
+}
+%>
+     
+        
     </div>
 </body>
 </html>

@@ -45,7 +45,7 @@ public class CartCheckoutServlet extends HttpServlet {
                 cart.remove(removeIndex);
                 session.setAttribute("cart", cart); // Update the session
             }
-            response.sendRedirect(request.getContextPath() + "/src/main/webapp/JAD-CA1/cart.jsp");
+            response.sendRedirect(request.getContextPath() + "/JAD-CA1/cart.jsp");
 
             return;
         }
@@ -107,7 +107,7 @@ public class CartCheckoutServlet extends HttpServlet {
 
                 if (allSuccess) {
                     session.removeAttribute("cart");
-                    response.sendRedirect("serviceHistory.jsp");
+                    response.sendRedirect(request.getContextPath() + "/JAD-CA1/serviceHistory.jsp");
                 } else {
                     request.setAttribute("error", "Failed to process booking.");
                     request.getRequestDispatcher("cart.jsp").forward(request, response);

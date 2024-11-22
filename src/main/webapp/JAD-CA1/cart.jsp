@@ -47,11 +47,6 @@
             <%
             String serviceIdParam = request.getParameter("service_id");
             String subServiceIdParam = request.getParameter("sub_service_id");
-
-            if (serviceIdParam != null && subServiceIdParam != null) {
-                out.println("<p>Service ID: " + serviceIdParam + "</p>");
-                out.println("<p>Sub-Service ID: " + subServiceIdParam + "</p>");
-            }
                 List<Map<String, Object>> cart = (List<Map<String, Object>>) session.getAttribute("cart");
 
                 if (cart == null || cart.isEmpty()) {
