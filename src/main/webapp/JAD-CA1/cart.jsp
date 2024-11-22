@@ -45,6 +45,13 @@
         <p class="service-info">You have selected <span id="serviceCount">0</span> service(s) for checkout.</p>
         <form action="/JAD_Cleaning_Service_CA1/CartCheckoutServlet" method="post">
             <%
+            String serviceIdParam = request.getParameter("service_id");
+            String subServiceIdParam = request.getParameter("sub_service_id");
+
+            if (serviceIdParam != null && subServiceIdParam != null) {
+                out.println("<p>Service ID: " + serviceIdParam + "</p>");
+                out.println("<p>Sub-Service ID: " + subServiceIdParam + "</p>");
+            }
                 List<Map<String, Object>> cart = (List<Map<String, Object>>) session.getAttribute("cart");
 
                 if (cart == null || cart.isEmpty()) {
@@ -108,7 +115,6 @@
             <div class="cart-summary">
                 <p>Subtotal: <span id="subtotal">$0.00</span></p>
                 <button type="submit" name="checkout" class="checkout-btn" value="true" onclick="validateCheckout(event)">Checkout</button>
-                
             </div>
         </form>
     </div>

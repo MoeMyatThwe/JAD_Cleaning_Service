@@ -67,6 +67,7 @@ public class CartCheckoutServlet extends HttpServlet {
                     int itemIndex = Integer.parseInt(index);
                     Map<String, Object> item = cart.get(itemIndex);
 
+                    int serviceId = Integer.parseInt(item.get("serviceId").toString());
                     int subServiceId = Integer.parseInt(item.get("subServiceId").toString());
                     String dateString = item.get("date").toString();
                     String timeString = item.get("time").toString();
@@ -86,15 +87,16 @@ public class CartCheckoutServlet extends HttpServlet {
                         throw new IllegalArgumentException("Invalid time value: " + timeString);
                     }
                     try (PreparedStatement stmt = conn.prepareStatement(
-                            "INSERT INTO booking (user_id, sub_service_id, date, time, duration, service_address, special_request, created_at) " +
-                                    "VALUES (?, ?, ?, ?, ?, ?, ?, CURRENT_TIMESTAMP)")) {
+                            "INSERT INTO booking (user_id,service_id,  sub_service_id, date, time, duration, service_address, special_request, created_at) " +
+                                    "VALUES (?,?, ?, ?, ?, ?, ?, ?, CURRENT_TIMESTAMP)")) {
                         stmt.setInt(1, userId);
-                        stmt.setInt(2, subServiceId);
-                        stmt.setDate(3, sqlDate); // Use java.sql.Date
-                        stmt.setTime(4, sqlTime);
-                        stmt.setInt(5, duration);
-                        stmt.setString(6, address);
-                        stmt.setString(7, specialRequest);
+                        stmt.setInt(2, serviceId);
+                        stmt.setInt(3, subServiceId);
+                        stmt.setDate(4, sqlDate); // Use java.sql.Date
+                        stmt.setTime(5, sqlTime);
+                        stmt.setInt(6, duration);
+                        stmt.setString(7, address);
+                        stmt.setString(8, specialRequest);
                         stmt.executeUpdate();
                     } catch (SQLException e) {
                         e.printStackTrace();

@@ -95,40 +95,36 @@
 
 	
 	<%
-	if ("POST".equalsIgnoreCase(request.getMethod())) {
-	    String date = request.getParameter("date");
-	    String time = request.getParameter("time");
-	    String duration = request.getParameter("duration");
-	    String serviceAddress = request.getParameter("serviceAddress");
-	    String specialRequest = request.getParameter("specialRequest");
+if ("POST".equalsIgnoreCase(request.getMethod())) {
+    String date = request.getParameter("date");
+    String time = request.getParameter("time");
+    String duration = request.getParameter("duration");
+    String serviceAddress = request.getParameter("serviceAddress");
+    String specialRequest = request.getParameter("specialRequest");
+
+    // Create a booking map
+    Map<String, String> booking = new HashMap<>();
+    booking.put("serviceId", serviceId);
+    booking.put("subServiceId", subServiceId);
+    booking.put("subServiceName", subServiceName);
+    booking.put("date", date);
+    booking.put("time", time);
+    booking.put("duration", duration);
+    booking.put("serviceAddress", serviceAddress);
+    booking.put("specialRequest", specialRequest);
+
+    // Add to session cart
+    ArrayList<Map<String, String>> cart = (ArrayList<Map<String, String>>) session.getAttribute("cart");
+    if (cart == null) {
+        cart = new ArrayList<>();
+    }
+    cart.add(booking);
+    session.setAttribute("cart", cart);
+
+    out.println("<p>Added to cart. <a href='cart.jsp?service_id=" + serviceId + "&sub_service_id=" + subServiceId + "' class='btn view-cart-btn'>View Cart</a></p>");
+}
+%>
 	
-	    // Create a booking map
-	    Map<String, String> booking = new HashMap<>();
-	    booking.put("serviceId", serviceId);
-	    booking.put("subServiceId", subServiceId);
-	    booking.put("subServiceName", subServiceName);
-	    booking.put("date", date);
-	    booking.put("time", time);
-	    booking.put("duration", duration);
-	    booking.put("serviceAddress", serviceAddress);
-	    booking.put("specialRequest", specialRequest);
-	
-	    // Add to session cart
-	    ArrayList<Map<String, String>> cart = (ArrayList<Map<String, String>>) session.getAttribute("cart");
-	    if (cart == null) {
-	        cart = new ArrayList<>();
-	    }
-	    cart.add(booking);
-	    session.setAttribute("cart", cart);%>
-	    <% 
-	    List<Map<String, String>> subServices = new ArrayList<>();
-	    for (Map<String, String> subService : subServices) { %>
-	    out.println("<p>Added to cart. <a href='cart.jsp?service_id=" + serviceId + "&sub_service_id=" + subService.get("id") + "' class='btn view-cart-btn'>View Cart</a></p>");
-	       <% } %>
-	       <%
-	}
-	%>
-        
     </div>
 </body>
 </html>
