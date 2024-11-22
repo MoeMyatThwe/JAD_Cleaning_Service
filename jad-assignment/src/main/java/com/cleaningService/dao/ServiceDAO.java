@@ -156,5 +156,25 @@ public class ServiceDAO {
 		}
 		return isUpdated;
 	}
+	
+	public boolean updateServicePhoto(int id, String image) {
+		boolean isUpdated = false;
+		String sql = "UPDATE service SET image=? WHERE service_id=?";
+		try(Connection connection = DBConnection.getConnection();
+				PreparedStatement stmt = connection.prepareStatement(sql)){
+			stmt.setString(1, image);
+			stmt.setInt(2, id);
+			
+			int rowsAffected = stmt.executeUpdate();
+			
+			if(rowsAffected > 0) {
+				isUpdated = true;
+			}
+			
+		}catch(SQLException e) {
+			e.printStackTrace();
+		}
+		return isUpdated;
+	}
 
 }

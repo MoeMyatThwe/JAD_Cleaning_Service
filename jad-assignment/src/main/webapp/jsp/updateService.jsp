@@ -91,7 +91,6 @@
     }
         
     %>
-
     <a href="serviceList.jsp">Go back to the service list</a>
 </body>
 </html>
