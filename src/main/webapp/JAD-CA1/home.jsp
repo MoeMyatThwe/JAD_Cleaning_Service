@@ -1,7 +1,10 @@
 
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ page import="java.sql.Connection, java.sql.PreparedStatement, java.sql.ResultSet" %>
+<%@ page import="java.util.List, java.util.ArrayList, java.util.Map, java.util.HashMap" %>
+<%@ page import="com.cleaningService.util.DatabaseConnection" %>
 <%@ include file="header.jsp" %>
-
+<%@ page import="java.sql.*" %>
 <%
     // Determine the redirect URL based on user's login status
     String redirectURL;
@@ -11,6 +14,36 @@
     } else {
         // If user is not logged in, redirect to the register page
         redirectURL = "register.jsp";
+    }
+    
+    List<Map<String, String>> reviews = new ArrayList<>();
+    Connection conn = null;
+    PreparedStatement pstmt = null;
+    ResultSet rs = null;
+
+    try {
+        // Get a database connection
+        conn = DatabaseConnection.connect();
+
+        // SQL query to fetch the latest 3 feedback
+        String sql = "SELECT comments, rating FROM feedback ORDER BY feedback_id DESC LIMIT 3";
+        pstmt = conn.prepareStatement(sql);
+        rs = pstmt.executeQuery();
+
+        // Process the results
+        while (rs.next()) {
+            Map<String, String> review = new HashMap<>();
+            review.put("comments", rs.getString("comments"));
+            review.put("rating", String.valueOf(rs.getInt("rating")));
+            reviews.add(review);
+        }
+    } catch (Exception e) {
+    	 out.println("An error occurred while fetching feedback: " + e.getMessage());
+         e.printStackTrace(new java.io.PrintWriter(out));
+    } finally {
+        if (rs != null) try { rs.close(); } catch (Exception e) {}
+        if (pstmt != null) try { pstmt.close(); } catch (Exception e) {}
+        if (conn != null) try { conn.close(); } catch (Exception e) {}
     }
 %>
 
@@ -31,8 +64,8 @@
     <!-- Welcome Section -->
     <section class="welcome-section">
         <h1>
-            <% if (username != null) { %>
-                Welcome, <%= username %>!
+            <% if (session.getAttribute("username") != null) { %>
+                Welcome, <%= session.getAttribute("username") %>!
             <% } else { %>
                 Welcome to Shiny Home Services!
             <% } %>
@@ -85,51 +118,67 @@
 </section>
 	
     <!-- Section 3: Customer Testimonials -->
+    <!-- Testimonials Section -->
     <section class="testimonials-section">
-    <div class="container">
-        <!-- Heading -->
-        <h2 class="section-title">Hear What Our Customers Have to Say</h2>
-        <p class="section-subtitle">
-            Trusted by both local & expat communities, we are rated 4.7/5 stars on Google by over 2,600+ users!
-        </p>
+        <div class="container">
+            <h2 class="section-title">Hear What Our Customers Have to Say</h2>
+            <p class="section-subtitle">
+                Trusted by both local & expat communities, we are rated 4.7/5 stars on Google by over 2,600+ users!
+            </p>
 
-        <!-- Testimonial Cards -->
-        <div class="testimonials">
-            <!-- Testimonial 1 -->
-            <div class="testimonial-card">
-                <img src="/JAD_Cleaning_Service_CA1/JAD-CA1/gallery/verify.png" alt="Review Icon" class="review-icon">
-                <p class="testimonial-text">
-                    “All pretty mummies need time for their hair and nails, right? I’m so happy that I found a part-time cleaner. She frees up so much of my weekends!”
-                </p>
-                <span class="customer-name">@midiforreal</span>
-                <div class="rating">★★★★★</div>
-            </div>
-
-            <!-- Testimonial 2 -->
-            <div class="testimonial-card">
-                <img src="/JAD_Cleaning_Service_CA1/JAD-CA1/gallery/verify.png" alt="Review Icon" class="review-icon">
-                <p class="testimonial-text">
-                    “I’ve worked with many helpers before. They go through training, so the quality is consistent. Highly recommend them!”
-                </p>
-                <span class="customer-name">@keweitay</span>
-                <div class="rating">★★★★★</div>
-            </div>
-
-            <!-- Testimonial 3 -->
-            <div class="testimonial-card">
-                <img src="/JAD_Cleaning_Service_CA1/JAD-CA1/gallery/verify.png" alt="Review Icon" class="review-icon">
-                <p class="testimonial-text">
-                    “No housework means more time for work! My house is squeaky clean every week. So happy with the service!”
-                </p>
-                <span class="customer-name">@miss_luxe</span>
-                <div class="rating">★★★★★</div>
+            <div class="testimonials">
+                <% 
+                    if (reviews.isEmpty()) { 
+                %>
+                    <!-- Default Testimonials -->
+                    <div class="testimonial-card">
+                        <img src="/JAD_Cleaning_Service_CA1/JAD-CA1/gallery/verify.png" alt="Review Icon" class="review-icon">
+                        <p class="testimonial-text">
+                            “All pretty mummies need time for their hair and nails, right? I’m so happy that I found a part-time cleaner. She frees up so much of my weekends!”
+                        </p>
+                        <span class="customer-name">@midiforreal</span>
+                        <div class="rating">★★★★★</div>
+                    </div>
+                    <div class="testimonial-card">
+                        <img src="/JAD_Cleaning_Service_CA1/JAD-CA1/gallery/verify.png" alt="Review Icon" class="review-icon">
+                        <p class="testimonial-text">
+                            “I’ve worked with many helpers before. They go through training, so the quality is consistent. Highly recommend them!”
+                        </p>
+                        <span class="customer-name">@keweitay</span>
+                        <div class="rating">★★★★★</div>
+                    </div>
+                    <div class="testimonial-card">
+                        <img src="/JAD_Cleaning_Service_CA1/JAD-CA1/gallery/verify.png" alt="Review Icon" class="review-icon">
+                        <p class="testimonial-text">
+                            “No housework means more time for work! My house is squeaky clean every week. So happy with the service!”
+                        </p>
+                        <span class="customer-name">@miss_luxe</span>
+                        <div class="rating">★★★★★</div>
+                    </div>
+                <% } else { 
+                    for (Map<String, String> review : reviews) { 
+                %>
+                    <!-- Dynamic Testimonials -->
+                    <div class="testimonial-card">
+                        <img src="/JAD_Cleaning_Service_CA1/JAD-CA1/gallery/verify.png" alt="Review Icon" class="review-icon">
+                        <p class="testimonial-text"><%= review.get("comments") %></p>
+                        <div class="rating">
+                            <% 
+                                int rating = Integer.parseInt(review.get("rating"));
+                                for (int i = 0; i < rating; i++) { 
+                            %>
+                                ★
+                            <% } %>
+                        </div>
+                    </div>
+                <% 
+                    } 
+                } 
+                %>
             </div>
         </div>
-    </div>
-</section>
+    </section>
     
-
-   <!-- Section 4: Benefits for Your Organization -->
 <!-- Section 4: Benefits for Your Organization -->
 <section class="benefits-section">
     <div class="container">
@@ -156,8 +205,6 @@
         </div>
     </div>
 </section>
-
-   
 
     <!-- Section 5: Contact Us -->
     <section id="contact-us" class="contact-section">

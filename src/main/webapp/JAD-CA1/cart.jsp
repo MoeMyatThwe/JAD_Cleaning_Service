@@ -8,6 +8,7 @@
     <link rel="stylesheet" href="home.css">
     <link rel="stylesheet" href="cart.css">
     <script>
+ 
         function updateSummary() {
             const checkboxes = document.querySelectorAll('.cart-checkbox');
             const prices = document.querySelectorAll('.cart-price');
@@ -28,6 +29,7 @@
             serviceCount.innerText = selectedCount;
             subtotalElement.innerText = `$${subtotal.toFixed(2)}`;
         }
+  
 
         function validateCheckout(event) {
             const checkboxes = document.querySelectorAll('.cart-checkbox');
@@ -109,7 +111,7 @@
                 }
             %>
             <div class="cart-summary">
-                <p>Subtotal: <span id="subtotal">$0.00</span></p>
+               
                 <button type="submit" name="checkout" class="checkout-btn" value="true" onclick="validateCheckout(event)">Checkout</button>
             </div>
         </form>
