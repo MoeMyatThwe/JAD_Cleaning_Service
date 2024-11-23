@@ -15,6 +15,8 @@
         // If user is not logged in, redirect to the register page
         redirectURL = "register.jsp";
     }
+    double averageRating = 0.0;
+    int totalUsers = 0;
     
     List<Map<String, String>> reviews = new ArrayList<>();
     Connection conn = null;
@@ -25,12 +27,22 @@
         // Get a database connection
         conn = DatabaseConnection.connect();
 
-        // SQL query to fetch the latest 3 feedback
-        String sql = "SELECT comments, rating FROM feedback ORDER BY feedback_id DESC LIMIT 3";
-        pstmt = conn.prepareStatement(sql);
+     // Fetch average rating and total feedback count
+        String avgSql = "SELECT AVG(rating) AS average_rating, COUNT(*) AS total_users FROM feedback";
+        pstmt = conn.prepareStatement(avgSql);
+        rs = pstmt.executeQuery();
+        if (rs.next()) {
+            averageRating = rs.getDouble("average_rating");
+            totalUsers = rs.getInt("total_users");
+        }
+        rs.close();
+        pstmt.close();
+
+        // Fetch the latest 3 feedbacks
+        String feedbackSql = "SELECT comments, rating FROM feedback ORDER BY feedback_id DESC LIMIT 3";
+        pstmt = conn.prepareStatement(feedbackSql);
         rs = pstmt.executeQuery();
 
-        // Process the results
         while (rs.next()) {
             Map<String, String> review = new HashMap<>();
             review.put("comments", rs.getString("comments"));
@@ -38,8 +50,8 @@
             reviews.add(review);
         }
     } catch (Exception e) {
-    	 out.println("An error occurred while fetching feedback: " + e.getMessage());
-         e.printStackTrace(new java.io.PrintWriter(out));
+        out.println("An error occurred while fetching data: " + e.getMessage());
+        e.printStackTrace(new java.io.PrintWriter(out));
     } finally {
         if (rs != null) try { rs.close(); } catch (Exception e) {}
         if (pstmt != null) try { pstmt.close(); } catch (Exception e) {}
@@ -97,9 +109,8 @@
                 </p>
                  <a href="#contact-us" class="btn btn-outline-dark px-4 py-2">Contact Us</a>
             </div>
-
-            <!-- Right Column: Highlights -->
-            <div class="col-md-6">
+            
+			 <div class="col-md-6">
                 <div class="service-highlights d-flex">
                     <!-- Highlight 1 -->
                     <div class="highlight">
@@ -113,24 +124,22 @@
                     </div>
                 </div>
             </div>
-        </div>
+   
+</div>
     </div>
 </section>
 	
-    <!-- Section 3: Customer Testimonials -->
-    <!-- Testimonials Section -->
-    <section class="testimonials-section">
-        <div class="container">
-            <h2 class="section-title">Hear What Our Customers Have to Say</h2>
-            <p class="section-subtitle">
-                Trusted by both local & expat communities, we are rated 4.7/5 stars on Google by over 2,600+ users!
-            </p>
-
-            <div class="testimonials">
-                <% 
-                    if (reviews.isEmpty()) { 
-                %>
-                    <!-- Default Testimonials -->
+   <section class="testimonials-section">
+    <div class="container">
+        <h2 class="section-title">Hear What Our Customers Have to Say</h2>
+        <p class="section-subtitle">
+            Trusted by both local & expat communities, we are rated 
+            <%= String.format("%.1f", averageRating) %>/5 stars on Google by over <%= totalUsers %>+ users!
+        </p>
+        <div class="row">
+            <% if (reviews.isEmpty()) { %>
+                <!-- Default Testimonials -->
+                <div class="col-md-4 col-sm-6 col-12 mb-4">
                     <div class="testimonial-card">
                         <img src="/JAD_Cleaning_Service_CA1/JAD-CA1/gallery/verify.png" alt="Review Icon" class="review-icon">
                         <p class="testimonial-text">
@@ -139,6 +148,8 @@
                         <span class="customer-name">@midiforreal</span>
                         <div class="rating">★★★★★</div>
                     </div>
+                </div>
+                <div class="col-md-4 col-sm-6 col-12 mb-4">
                     <div class="testimonial-card">
                         <img src="/JAD_Cleaning_Service_CA1/JAD-CA1/gallery/verify.png" alt="Review Icon" class="review-icon">
                         <p class="testimonial-text">
@@ -147,6 +158,8 @@
                         <span class="customer-name">@keweitay</span>
                         <div class="rating">★★★★★</div>
                     </div>
+                </div>
+                <div class="col-md-4 col-sm-6 col-12 mb-4">
                     <div class="testimonial-card">
                         <img src="/JAD_Cleaning_Service_CA1/JAD-CA1/gallery/verify.png" alt="Review Icon" class="review-icon">
                         <p class="testimonial-text">
@@ -155,10 +168,12 @@
                         <span class="customer-name">@miss_luxe</span>
                         <div class="rating">★★★★★</div>
                     </div>
-                <% } else { 
-                    for (Map<String, String> review : reviews) { 
-                %>
-                    <!-- Dynamic Testimonials -->
+                </div>
+            <% } else { 
+                for (Map<String, String> review : reviews) { 
+            %>
+                <!-- Dynamic Testimonials -->
+                <div class="col-md-4 col-sm-6 col-12 mb-4">
                     <div class="testimonial-card">
                         <img src="/JAD_Cleaning_Service_CA1/JAD-CA1/gallery/verify.png" alt="Review Icon" class="review-icon">
                         <p class="testimonial-text"><%= review.get("comments") %></p>
@@ -171,13 +186,15 @@
                             <% } %>
                         </div>
                     </div>
-                <% 
-                    } 
+                </div>
+            <% 
                 } 
-                %>
-            </div>
+            } 
+            %>
         </div>
-    </section>
+    </div>
+</section>
+   
     
 <!-- Section 4: Benefits for Your Organization -->
 <section class="benefits-section">

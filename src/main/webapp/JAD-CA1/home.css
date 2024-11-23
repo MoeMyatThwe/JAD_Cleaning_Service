@@ -259,7 +259,6 @@ h1, h2, h3, p {
 .leaders-section .btn:hover {
     background-color: #6c5a4b; 
 }
-
 /* Service Highlights */
 .service-highlights {
     display: flex; 
@@ -353,13 +352,18 @@ h1, h2, h3, p {
     color: #555;
     margin-bottom: 40px;
 }
+/* Testimonial Section */
+.testimonials-section {
+    background-color: #fffdf4;
+    padding: 50px 20px; /* Add padding for spacing */
+    text-align: center;
+}
 
-/* Testimonial Cards */
 .testimonials {
     display: flex;
+    flex-wrap: wrap; /* Allow wrapping for responsive behavior */
     gap: 20px;
     justify-content: center;
-    flex-wrap: wrap; 
 }
 
 .testimonial-card {
@@ -367,22 +371,23 @@ h1, h2, h3, p {
     border-radius: 12px;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     padding: 20px;
-    width: 300px; /* Fixed width for cards */
+    max-width: 350px;
     text-align: center;
-    position: relative;
+    margin: auto; /* Center card */
     display: flex;
     flex-direction: column;
     justify-content: space-between;
 }
 
-/* Review Icon */
+/* Icon Size */
 .review-icon {
-    width: 60px; /* Icon size */
+    width: 60px;
     height: 60px;
     margin: 0 auto 15px;
+    border-radius: 50%;
 }
 
-/* Testimonial Text */
+/* Text Styling */
 .testimonial-text {
     font-size: 1rem;
     color: #333;
@@ -399,18 +404,18 @@ h1, h2, h3, p {
 
 .rating {
     font-size: 1.2rem;
-    color: #f4c542; /* Gold for stars */
+    color: #f4c542; /* Gold color for stars */
 }
 
 /* Responsive Design */
 @media (max-width: 768px) {
-    .testimonials {
-        flex-direction: column;
-        gap: 20px;
+    .testimonial-card {
+        width: 100%; /* Full width for small screens */
     }
 
-    .testimonial-card {
-        width: 100%; 
+    .review-icon {
+        width: 50px;
+        height: 50px;
     }
 }
 
