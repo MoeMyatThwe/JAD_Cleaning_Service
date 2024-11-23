@@ -1,0 +1,85 @@
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background-color: #fff8e1;
+}
+
+.register-container {
+    width: 100%;
+    max-width: 400px;
+    padding: 20px;
+    box-sizing: border-box;
+}
+
+.register-card {
+    background-color: #F7E3D2;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    text-align: center;
+}
+
+.register-title {
+    font-size: 1.8rem;
+    font-weight: bold;
+    color: #674636; 
+    margin-bottom: 20px;
+}
+
+.register-form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.register-label {
+    text-align: left;
+    font-weight: bold;
+    color: #674636; 
+    margin-bottom: 5px;
+}
+
+.register-input {
+    padding: 10px;
+    font-size: 1rem;
+    border: 1px solid #c6a38f; 
+    border-radius: 5px;
+    box-sizing: border-box;
+    width: 100%;
+}
+
+.register-btn {
+    padding: 10px 15px;
+    font-size: 1rem;
+    font-weight: bold;
+    color: white;
+    background-color: #674636; 
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.register-btn:hover {
+    background-color: #835945;
+}
+
+.register-login {
+    margin-top: 15px;
+    font-size: 0.9rem;
+    color: #674636; /* Brown */
+}
+
+.register-login-link {
+    color: #c67443;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.register-login-link:hover {
+    text-decoration: underline;
+}

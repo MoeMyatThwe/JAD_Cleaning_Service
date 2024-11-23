@@ -19,6 +19,7 @@
 
             checkboxes.forEach((checkbox, index) => {
                 if (checkbox.checked) {
+                	const priceText = prices[index]?.innerText || "$0.00";
                     subtotal += parseFloat(prices[index].innerText.replace('$', ''));
                     selectedCount++;
                 }

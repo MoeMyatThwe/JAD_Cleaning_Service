@@ -86,12 +86,13 @@ textarea {
 
 .buttons-container {
     display: flex;
-    justify-content: space-between; /* Align buttons side by side */
+    justify-content: space-between;
+    gap: 10px;
     margin-top: 20px;
 }
 
 .btn {
-    display: inline-block;
+	flex: 1;
     padding: 10px 20px;
     font-size: 16px;
     color: #fff;

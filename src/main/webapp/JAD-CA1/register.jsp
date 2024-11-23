@@ -5,88 +5,29 @@
 <html>
 <head>
     <title>Register</title>
-    <style>
- 
-        body {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            font-family: Arial, sans-serif;
-            background-color: #fff8e1; 
-        }
-
-        .register-card {
-            padding: 20px;
-            width: 350px;
-            background-color: #F7E3D2; 
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-            border-radius: 8px;
-        }
-
-        h2 {
-            color: #674636; /* Brown */
-        }
-
-        label {
-            display: block;
-            margin-bottom: 5px;
-            color: #674636;
-        }
-
-        input[type="text"], input[type="email"], input[type="password"], input[type="submit"] {
-            display: block;
-            width: 100%;
-            padding: 10px;
-            margin: 10px 0;
-            border: 1px solid #c6a38f;
-            border-radius: 4px;
-        }
-
-        input[type="submit"] {
-            background-color: #674636;
-            color: white;
-            cursor: pointer;
-            font-weight: bold;
-        }
-
-        input[type="submit"]:hover {
-            background-color: #835945; 
-        }
-
-        h5 {
-            text-align: center;
-            color: #674636;
-        }
-
-        h5 a {
-            text-decoration: none;
-            color: #c67443;
-        }
-
-        h5 a:hover {
-            text-decoration: underline;
-        }
-    </style>
+    <link rel="stylesheet" href="register.css">
 </head>
 <body>
-    <div class="register-card">
-        <h2>Register</h2>
-        <form method="post" action="register.jsp">
-    <label>Name:</label>
-    <input type="text" name="name" required>
-    
-    <label>Email:</label>
-    <input type="email" name="email" required>
-    
-    <label>Password:</label>
-    <input type="password" name="password" required>
-    
-    <input type="submit" value="Register">
-        </form>
-        <h5>Already have an account? <a href="login.jsp">Login</a></h5>
-    </div>
+    <div class="register-container">
+        <div class="register-card">
+            <h2 class="register-title">Register</h2>
+            <form method="post" action="register.jsp" class="register-form">
+                <label for="name" class="register-label">Name:</label>
+                <input type="text" id="name" name="name" placeholder="Enter your name" class="register-input" required>
 
+                <label for="email" class="register-label">Email:</label>
+                <input type="email" id="email" name="email" placeholder="Enter your email" class="register-input" required>
+
+                <label for="password" class="register-label">Password:</label>
+                <input type="password" id="password" name="password" placeholder="Enter your password" class="register-input" required>
+
+                <input type="submit" value="Register" class="register-btn">
+            </form>
+            <p class="register-login">
+                Already have an account? <a href="login.jsp" class="register-login-link">Login</a>
+            </p>
+        </div>
+    </div>
 
     <% 
         if ("POST".equalsIgnoreCase(request.getMethod())) {
