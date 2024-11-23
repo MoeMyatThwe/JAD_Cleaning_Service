@@ -24,25 +24,33 @@ String role = (String) session.getAttribute("role"); // Retrieve role from sessi
 
             <!-- Navbar Links -->
             <ul class="navbar">
+                <!-- Links for All Users -->
                 <li><a href="home.jsp">Home</a></li>
                 <li><a href="services.jsp">Services</a></li>
-                <% if ("admin".equals(role)) { %>
-                    <li><a href="dashboard.jsp">Dashboard</a></li>
-                    <li><a href="appointments.jsp">Appointments</a></li>
-                    <li><a href="feedback.jsp">Feedback</a></li>
-                <% } else if ("member".equals(role)) { %>
-                    <li><a href="appointments.jsp">Appointments</a></li>
-                    <li><a href="feedback.jsp">Feedback</a></li>
-                <% } else { %>
-                    <li><a href="register.jsp">Register</a></li>
-                <% } %>
-                <% if (username != null) { %>
-                    <li><a href="profile.jsp">Profile</a></li>
-                    <li><a href="cart.jsp">Cart</a></li>
-                    <li><a href="serviceHistory.jsp">Service History</a></li>
-                    <li><a href="yourFeedback.jsp">Feedback</a></li>
+
+                <% 
+                if (username != null) { // User is logged in
+                    if ("admin".equalsIgnoreCase(role)) { // Admin-specific links
+                %>
+                        <li><a href="dashboard.jsp">Dashboard</a></li>
+                        <li><a href="appointments.jsp">Manage Appointments</a></li>
+                        <li><a href="feedback.jsp">Manage Feedback</a></li>
+                <% 
+                    } else { // Customer-specific links
+                %>
+                        <li><a href="profile.jsp">Profile</a></li>
+                        <li><a href="cart.jsp">Cart</a></li>
+                        <li><a href="serviceHistory.jsp">Service History</a></li>
+                        <li><a href="yourFeedback.jsp">Feedback</a></li>
+                <% 
+                    }
+                %>
+                    <!-- Common link for all logged-in users -->
                     <li><a href="logout.jsp">Logout</a></li>
-                <% } else { %>
+                <% 
+                } else { // Links for unauthenticated users
+                %>
+                    <li><a href="register.jsp">Register</a></li>
                     <li><a href="login.jsp">Login</a></li>
                 <% } %>
             </ul>

@@ -6,83 +6,22 @@
 <html>
 <head>
     <title>Login</title>
-    <style>
-
-        body {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            font-family: Arial, sans-serif;
-            background-color: #fff8e1; 
-        }
-
-        .login-card {
-            padding: 20px;
-            width: 350px;
-            background-color: #F7E3D2;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-            border-radius: 8px;
-        }
-
-        h2 {
-            color: #674636;
-        }
-
-        label {
-            display: block;
-            margin-bottom: 5px;
-            color: #674636;
-        }
-
-        input[type="email"], input[type="password"], input[type="submit"] {
-            display: block;
-            width: 100%;
-            padding: 10px;
-            margin: 10px 0;
-            border: 1px solid #c6a38f; 
-            border-radius: 4px;
-        }
-
-        input[type="submit"] {
-            background-color: #674636;
-            color: white;
-            cursor: pointer;
-            font-weight: bold;
-        }
-
-        input[type="submit"]:hover {
-            background-color: #835945; 
-        }
-
-        h5 {
-            text-align: center;
-            color: #674636;
-        }
-
-        h5 a {
-            text-decoration: none;
-            color: #c67443; 
-        }
-
-        h5 a:hover {
-            text-decoration: underline;
-        }
-    </style>
+    <link rel="stylesheet" href="login.css">
 </head>
 <body>
     <div class="login-card">
-        <h2>Login</h2>
+        <h2>Welcome Back</h2>
         <form method="post">
-            <label>Email</label>
-            <input type="email" name="email" required>
-            <label>Password</label>
-            <input type="password" name="password" required>
+            <label for="email">Email</label>
+            <input type="email" id="email" name="email" placeholder="Enter your email" required>
+            <label for="password">Password</label>
+            <input type="password" id="password" name="password" placeholder="Enter your password" required>
             <input type="submit" value="Login">
         </form>
-        <h5>Don't have an account? <a href="register.jsp">Register</a></h5>
+        <div class="footer-text">
+            <p>Don't have an account? <a href="register.jsp">Register</a></p>
+        </div>
     </div>
-
 
     <%
     if ("POST".equalsIgnoreCase(request.getMethod())) {
@@ -105,10 +44,9 @@
                 response.sendRedirect("home.jsp");
             }
         } else {
-            out.println("<p style='color:red;'>Invalid email or password.</p>");
+            out.println("<p class='error-message'>Invalid email or password.</p>");
         }
     }
-%>
-    
+    %>
 </body>
 </html>
