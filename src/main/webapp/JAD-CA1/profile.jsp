@@ -15,10 +15,12 @@
             response.sendRedirect("login.jsp");
             return;
         }
-
+      
 
         // Fetch user data
-        String name = "", email = "", phone = "Not Specified", address = "Not Specified", avatarUrl = "gallery/default_avatar.jpg", coverPhotoUrl = "gallery/default_cover.jpg";
+        String name = "", email = "", phone = "Not Specified", address = "Not Specified";
+        String avatarUrl = "gallery/default_avatar.jpg";
+        String coverPhotoUrl = "gallery/default_cover.jpg";
         try (Connection conn = DatabaseConnection.connect();
              PreparedStatement stmt = conn.prepareStatement("SELECT * FROM users WHERE id = ?")) {
             stmt.setInt(1, userId);
@@ -33,26 +35,26 @@
                 }
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+        	out.println("<p style='color:red;'>Error fetching user data: " + e.getMessage() + "</p>");
         }
     %>
     <div class="profile-container">
+      
         <div class="profile-cover" style="background-image: url('<%= coverPhotoUrl %>');">
+        
             <div class="profile-avatar">
                 <img src="<%= avatarUrl %>" alt="User Avatar">
-                <form method="post" enctype="multipart/form-data" action="${pageContext.request.contextPath}/UploadAvatarServlet">
+               
+                <form method="post" enctype="multipart/form-data" action="updateAvatar.jsp">
                     <input type="file" name="avatar" accept="image/*" required>
                     <button type="submit" class="change-avatar-btn">Change Avatar</button>
                 </form>
             </div>
-            <form method="post" enctype="multipart/form-data" action="${pageContext.request.contextPath}/UploadCoverPhotoServlet">
-                <input type="file" name="coverPhoto" accept="image/*" required>
-                <button type="submit" class="change-cover-btn">Change Cover Photo</button>
-            </form>
         </div>
+        <!-- Profile Details -->
         <div class="profile-details">
             <h1>Welcome, <%= name %></h1>
-            <form method="post" action="updateProfileServlet">
+            <form method="post" action="updateProfile.jsp">
                 <label for="name">Name:</label>
                 <input type="text" id="name" name="name" value="<%= name %>" required>
 
