@@ -4,6 +4,8 @@
 <%@ page import="com.cleaningService.util.DBConnection" %>
 <%@ page import="com.cleaningService.dao.CategoryDAO" %>
 <%@ page import="com.cleaningService.model.Category" %>
+<%@ include file="authCheck.jsp" %>
+
 <!DOCTYPE html>
 <html>
 <head>

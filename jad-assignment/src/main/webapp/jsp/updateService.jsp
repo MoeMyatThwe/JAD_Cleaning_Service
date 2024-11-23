@@ -6,6 +6,8 @@
     <%@ page import = "com.cleaningService.dao.ServiceDAO" %>
     <%@ page import = "com.cleaningService.dao.CategoryDAO" %>
     <%@page import = "java.util.List" %>
+    <%@ include file="authCheck.jsp" %>
+    
 <!DOCTYPE html>
 <html>
 <head>

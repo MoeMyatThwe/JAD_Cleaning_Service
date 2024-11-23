@@ -1,22 +1,19 @@
 package com.cleaningService.model;
 
 public class User {
+	private int id;
     private String name;
     private String email;
     private String password;
-    private Integer phoneNum;
+    private int phoneNum;
     private String address;
-    private Integer role;
-
-    public Integer getRole() {
-		return role;
-	}
-
-	public void setRole(Integer role) {
-		this.role = role;
-	}
-
-	public User(String name, String email, String password, Integer phoneNum, String address, Integer role) {
+    private int role;
+    
+    public User() {
+    	
+    }
+    
+    public User(String name, String email, String password, int phoneNum, String address, int role) {
         this.name = name;
         this.email = email;
         this.password = password;
@@ -24,17 +21,26 @@ public class User {
         this.address = address;
         this.role = role;
     }
+    
+	// Getters and Setters
 
-    // Getters and Setters
+    public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
+	}
+
     public String getName() {
         return name;
     }
 
-    public Integer getPhoneNum() {
+    public int getPhoneNum() {
 		return phoneNum;
 	}
 
-	public void setPhoneNum(Integer phoneNum) {
+	public void setPhoneNum(int phoneNum) {
 		this.phoneNum = phoneNum;
 	}
 
@@ -65,4 +71,12 @@ public class User {
     public void setPassword(String password) {
         this.password = password;
     }
+    
+    public int getRole() {
+		return role;
+	}
+
+	public void setRole(int role) {
+		this.role = role;
+	}
 }

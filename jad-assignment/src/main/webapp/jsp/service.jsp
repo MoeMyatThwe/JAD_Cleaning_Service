@@ -6,6 +6,7 @@
 <%@ page import="java.util.List" %>
 <%@ page import="java.io.File" %>
 <%@ page import="jakarta.servlet.http.Part" %>
+<%@ include file="authCheck.jsp" %>
 
 <!DOCTYPE html>
 <html>

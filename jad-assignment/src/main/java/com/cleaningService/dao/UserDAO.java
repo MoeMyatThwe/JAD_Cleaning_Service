@@ -12,7 +12,6 @@ import com.cleaningService.model.User;
 import com.cleaningService.util.DBConnection; 
 
 
-
 public class UserDAO {
 
     public boolean registerUser(User user) {
@@ -40,9 +39,9 @@ public class UserDAO {
         return isUserRegistered;
     }
     
-    public boolean verifyUser(String email, String password) {
-    	boolean isUserLogin = false;
-    	String sql = "SELECT password FROM users WHERE email=?";
+    public User getUserByEmail(String email, String password) {
+    	User user = new User();
+    	String sql = "SELECT * FROM users WHERE email=?";
     	
     	try(Connection connection = DBConnection.getConnection()) {
     		PreparedStatement statement = connection.prepareStatement(sql);
@@ -51,17 +50,25 @@ public class UserDAO {
     		ResultSet resultSet = statement.executeQuery();
     		
     		if(resultSet.next()) {
+    			user.setId(resultSet.getInt("id"));
+    			user.setName(resultSet.getString("name"));
+    			user.setPhoneNum(resultSet.getInt("phone"));
+    			user.setAddress(resultSet.getString("address"));
+    			
+    			user.setEmail(resultSet.getString("email"));
+    			user.setRole(resultSet.getInt("role_id"));
     			String storedPassword = resultSet.getString("password");
     			
     			if(BCrypt.checkpw(password, storedPassword)) {
-    				return true;
+    				return user;
     			}else {
-    				return false;
+    				return null;
     			}
     		}
     	}catch (SQLException e) {
             e.printStackTrace();
         }
-        return isUserLogin;
+        return user;
     }
+
 }

@@ -1,6 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-       <%@ page import = "com.cleaningService.dao.ServiceDAO" %> 
+       <%@ page import = "com.cleaningService.dao.ServiceDAO" %>
+       <%@ include file="authCheck.jsp" %>
+        
 
 <!DOCTYPE html>
 <html>
