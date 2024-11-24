@@ -1,3 +1,4 @@
+<%@ include file="check.jsp" %>
 <%@ page import="java.sql.*, com.cleaningService.util.DatabaseConnection" %>
 <%
     Integer userId = (Integer) session.getAttribute("userId");
