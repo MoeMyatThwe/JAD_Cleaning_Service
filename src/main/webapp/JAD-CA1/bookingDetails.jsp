@@ -13,6 +13,11 @@
     <link rel="stylesheet" href="home.css">
     <link rel="stylesheet" href="services.css">
     <link rel="stylesheet" href="bookingDetails.css"> 
+    <script>
+        function showAlert(message) {
+            alert(message);
+        }
+    </script>
 </head>
 <body>
     <div class="booking-container">
@@ -89,7 +94,7 @@
 			    <textarea name="specialRequest" rows="4"></textarea>
 			    
 			    <div class="buttons-container">
-			        <a href="serviceDetails.jsp" class="btn back-btn">Back to Services</a>
+			        <a href="serviceDetails.jsp?service_id=<%= serviceId %>" class="btn back-btn">Back to Services</a>
 			        <button type="submit" class="btn">Add to Cart</button>
 			    </div>
 			</form>
@@ -121,7 +126,7 @@ if ("POST".equalsIgnoreCase(request.getMethod())) {
     }
     cart.add(booking);
     session.setAttribute("cart", cart);
-
+    out.println("<script>showAlert('Service successfully added to the cart!');</script>");
     out.println("<p>Added to cart. <a href='cart.jsp?service_id=" + serviceId + "&sub_service_id=" + subServiceId + "' class='btn view-cart-btn'>View Cart</a></p>");
 }
 %>
