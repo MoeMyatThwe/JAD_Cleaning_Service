@@ -12,14 +12,15 @@
 </head>
 <body>
 <%
-HttpSession userSession = request.getSession();
-Integer categoryId =(Integer) userSession.getAttribute("categoryId");
+String categoryIdStr = request.getParameter("categoryId");
+System.out.println(categoryIdStr);
 
-if(categoryId == null){
+if(categoryIdStr == null || categoryIdStr.isEmpty()){
 	%>
 	<script>alert('Category Id cannot be retrieved.')</script>
 	<%
 }else{
+	int categoryId = Integer.parseInt(categoryIdStr);
 	try{
 		CategoryDAO categoryDAO = new CategoryDAO();
 		boolean isDeleted = categoryDAO.deleteCategory(categoryId);
@@ -28,7 +29,7 @@ if(categoryId == null){
 			%>
 			<script>alert('Category deleted.')</script>
 			<%
-			response.sendRedirect("adminRetrieveAllCategory.jsp");
+			response.sendRedirect("adminRetrieveAllCategories.jsp");
 
 		}else{
 			%>

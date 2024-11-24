@@ -3,13 +3,15 @@
     <%@ page import="com.cleaningService.dao.FeedbackDAO" %>
 <%@ page import="com.cleaningService.model.Feedback" %>
 <%@ page import="java.util.List" %>
+	<%@ include file="authCheck.jsp" %>
+	<%@ include file="../html/adminNavbar.html" %>
 
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
 <title>All Feedback</title>
-    <link rel="stylesheet" type="text/css" href="../css/adminRetrieveAllFeedbacks.css">
+    <link rel="stylesheet" type="text/css" href="../css/adminRetrieveAllFeedback.css">
 
 </head>
 <body>

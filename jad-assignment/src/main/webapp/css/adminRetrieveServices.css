@@ -2,6 +2,7 @@
 
 
 body {
+	margin-top: 60px;	
     margin: 0;
     font-family: Arial, sans-serif;
 }
@@ -80,19 +81,3 @@ body {
     color: white;
 }
 
-@media (max-width: 768px) {
-    .sidebar {
-        width: 100%;
-        height: auto;
-        position: relative;
-    }
-
-    .sidebar ul {
-        display: flex;
-        justify-content: space-around;
-    }
-
-    .main-content {
-        margin-left: 0;
-    }
-}

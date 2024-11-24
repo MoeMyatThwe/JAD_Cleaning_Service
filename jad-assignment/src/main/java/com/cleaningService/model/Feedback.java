@@ -11,6 +11,17 @@ public class Feedback {
 	public Feedback() {
 		
 	}
+	
+	public Feedback(int id, String comments, int booking_id, String username, String serviceName, int rating) {
+		this.id = id;
+		this.comments = comments;
+		this.booking_id = booking_id;
+		this.username = username;
+		this.serviceName = serviceName;
+		this.rating = rating;
+	}
+
+
 
 	public int getId() {
 		return id;

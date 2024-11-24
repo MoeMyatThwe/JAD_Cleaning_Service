@@ -14,7 +14,7 @@ public class ServiceDAO {
 	// Method for retrieving service
 	public List<Service> retrieveService() {
 		List<Service>services = new ArrayList();
-		String sql = "SELECT * FROM service";
+		String sql = "SELECT * FROM service ORDER BY service.service_id";
 		
 		try(Connection connection = DBConnection.getConnection();
 				PreparedStatement stmt = connection.prepareStatement(sql);

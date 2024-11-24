@@ -11,6 +11,7 @@
 <html>
 <head>
     <meta charset="UTF-8">
+    <link rel="stylesheet" href="../css/adminRetrieveServices.css">
     <title>All Services</title>
 </head>
 <body>

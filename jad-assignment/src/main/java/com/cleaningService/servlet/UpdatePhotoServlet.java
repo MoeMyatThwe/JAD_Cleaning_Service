@@ -56,10 +56,10 @@ public class UpdatePhotoServlet extends HttpServlet {
             
             if (isUpdated) {
                 response.setStatus(HttpServletResponse.SC_OK);
-                response.getWriter().write("Photo updated successfully.");
+                response.sendRedirect("/jsp/adminRetrieveServices.jsp");
             } else {
                 response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
-                response.getWriter().write("Failed to update photo.");
+                
             }
         } else {
             response.setStatus(HttpServletResponse.SC_BAD_REQUEST);

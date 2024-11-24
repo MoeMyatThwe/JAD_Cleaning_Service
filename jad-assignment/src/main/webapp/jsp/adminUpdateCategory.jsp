@@ -4,6 +4,7 @@
 <%@ page import = "com.cleaningService.model.Category" %> 
 <%@ page import = "com.cleaningService.dao.CategoryDAO" %>
 <%@ include file="authCheck.jsp" %>
+<%@ include file="../html/adminNavbar.html" %>
 
 
 <!DOCTYPE html>
@@ -60,8 +61,17 @@
     <div class="container">
         <h2>Update Categories</h2>
         <%
-        HttpSession userSession = request.getSession();
-        Integer categoryId =(Integer) userSession.getAttribute("categoryId");
+        String categoryIdStr = request.getParameter("categoryId");
+
+        if(categoryIdStr == null){
+        	%><script>
+        	alert('categoryId not found.')
+        	return;
+        	</script>
+        	<%
+        }else{
+        	int categoryId = Integer.parseInt(categoryIdStr);
+        
             // Fetch all categories from the database
             CategoryDAO categoryDAO = new CategoryDAO();
             Category ctg = new Category();
@@ -72,7 +82,7 @@
         <div class="card">
             <form method="post">
                 <input type="hidden" name="categoryId" value="<%= ctg.getId() %>">
-                <input type="text" name="categoryName" value="<%=ctg.getCategoryName()%>" required>
+                <input type="text" name="categoryName" value="<%= ctg.getCategoryName()%>" required>
                 <button type="submit">Update</button>
             </form>
         </div>
@@ -106,6 +116,7 @@
                     e.printStackTrace();
                     out.println("<p>Error occurred while creating the category.</p>");
                 }
+            }
             }
         %>
     </div>

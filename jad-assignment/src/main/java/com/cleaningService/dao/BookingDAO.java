@@ -1,11 +1,9 @@
 package com.cleaningService.dao;
 
 import java.sql.Connection;
-import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Time;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -37,7 +35,7 @@ public class BookingDAO {
     
     public List<Booking> retrieveAllBookings() {
         List<Booking> bookings = new ArrayList<>();
-        String sql = "SELECT b.booking_id, u.name AS customer_name, s.service_name AS service_name, b.date, sc.category_name "
+        String sql = "SELECT b.booking_id, u.name AS customer_name, s.service_name AS service_name, b.date, sc.category_name AS category_name "
                    + "FROM booking b "
                    + "JOIN users u ON b.user_id = u.id "
                    + "JOIN service s ON b.service_id = s.service_id "
@@ -49,20 +47,22 @@ public class BookingDAO {
              
             while (rs.next()) {  
                 Booking booking = new Booking();
-                
-                booking.setId(rs.getInt("id"));
-                booking.setCustomerName("customer_name");
+                booking.setId(rs.getInt("booking_id"));
+                booking.setCustomerName(rs.getString("customer_name"));
                 booking.setServiceName(rs.getString("service_name"));
-                booking.setDate(sql);
-                booking.setCategoryName(rs.getString("categoryName"));
+                booking.setDate(rs.getString("date"));
+                booking.setCategoryName(rs.getString("category_name"));
                 
                 bookings.add(booking);
+                
+
             }
             
         } catch (SQLException e) {
             e.printStackTrace();
         }
         
+       
         return bookings;  
     }
 
