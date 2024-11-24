@@ -12,10 +12,10 @@ import org.mindrot.jbcrypt.BCrypt;
 
 public class UserDAO {
 
-    // Method to register a user
-	public boolean registerUser(User user) {
-	    boolean isUserRegistered = false;
-	    String sql = "INSERT INTO users (name, email, password, role) VALUES (?, ?, ?, ?)";
+	// Method to register a user and return the userId
+	public int registerUser(User user) {
+	    int userId = -1; // Default value indicating failure
+	    String sql = "INSERT INTO users (name, email, password, role) VALUES (?, ?, ?, ?) RETURNING id";
 	    String hashedPassword = BCrypt.hashpw(user.getPassword(), BCrypt.gensalt());
 
 	    try (Connection connection = DatabaseConnection.connect();
@@ -26,14 +26,14 @@ public class UserDAO {
 	        statement.setString(3, hashedPassword);
 	        statement.setString(4, "customer"); // Default role as 'customer'
 
-	        int rowsInserted = statement.executeUpdate();
-	        if (rowsInserted > 0) {
-	            isUserRegistered = true;
+	        ResultSet rs = statement.executeQuery();
+	        if (rs.next()) {
+	            userId = rs.getInt("id"); // Fetch the generated user ID
 	        }
 	    } catch (SQLException e) {
 	        e.printStackTrace();
 	    }
-	    return isUserRegistered;
+	    return userId;
 	}
 
     // Method to fetch user details by email
