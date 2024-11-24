@@ -12,10 +12,11 @@
 </head>
 <body>
 <%
-	HttpSession userSession = request.getSession();
-	Integer serviceId =(Integer) userSession.getAttribute("serviceId");
+	String serviceIdStr = request.getParameter("serviceId");
+
     
-    if (serviceId != null) {
+    if (serviceIdStr != null) {
+    	int serviceId = Integer.parseInt(serviceIdStr);
         try {
             ServiceDAO serviceDAO = new ServiceDAO();
             boolean isDeleted = serviceDAO.deleteService(serviceId);

@@ -1,29 +1,30 @@
 package com.cleaningService.servlet;
-import java.io.IOException;
 
+import java.io.IOException;
 import com.cleaningService.dao.ServiceDAO;
 import com.cleaningService.model.Service;
-
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import jakarta.servlet.http.HttpSession;
 
 @WebServlet("/UpdateServiceServlet")
 public class UpdateServiceServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-    	HttpSession userSession = request.getSession();
-    	Integer serviceId =(Integer) userSession.getAttribute("serviceId");
-        // Get the form data
+
+        // Retrieve the serviceId and other form parameters
+        String serviceIdStr = request.getParameter("serviceId");
+        int serviceId = Integer.parseInt(serviceIdStr);
+        
+        // Get the updated form data
         String serviceName = request.getParameter("serviceName");
         String description = request.getParameter("description");
         String priceStr = request.getParameter("price");
         String categoryStr = request.getParameter("category");
         
         try {
-            // Parse the price and category
+            // Parse price and category
             double price = Double.parseDouble(priceStr);
             int categoryId = Integer.parseInt(categoryStr);
 
@@ -39,14 +40,14 @@ public class UpdateServiceServlet extends HttpServlet {
             ServiceDAO serviceDAO = new ServiceDAO();
             boolean isUpdated = serviceDAO.updateService(serviceToUpdate);
 
-            // Redirect back to the service list or show a success/failure message
+            // Redirect based on success/failure
             if (isUpdated) {
                 response.sendRedirect(request.getContextPath() + "/jsp/adminRetrieveServices.jsp");
             } else {
-                response.sendRedirect(request.getContextPath() + "/jsp/adminRetrieveServices.jsp");
+                response.sendRedirect(request.getContextPath() + "/jsp/adminRetrieveServices.jsp?error=Update failed");
             }
         } catch (NumberFormatException e) {
-            // Handle the error if price or category is not valid
+            // Handle invalid price or category values
             response.sendRedirect(request.getContextPath() + "/updateService.jsp?error=Invalid price or category");
         }
     }

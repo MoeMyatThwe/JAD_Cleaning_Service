@@ -139,6 +139,7 @@ public class ServiceDAO {
 		return isUpdated;
 	}
 	
+	
 	public boolean updateServicePhoto(int id, String image) {
 		boolean isUpdated = false;
 		String sql = "UPDATE service SET image=? WHERE service_id=?";
@@ -158,5 +159,24 @@ public class ServiceDAO {
 		}
 		return isUpdated;
 	}
+	
+	//Method to retrieve the number of services offering
+	public int retrieveNumberOfServices() {
+	    int count = 0;
+	    String sql = "SELECT COUNT(service_id) AS serviceCount FROM service";
+
+	    try (Connection connection = DBConnection.getConnection();
+	         PreparedStatement stmt = connection.prepareStatement(sql);
+	         ResultSet resultSet = stmt.executeQuery()) {
+
+	        if (resultSet.next()) {
+	            count = resultSet.getInt("serviceCount");
+	        }
+	    } catch (SQLException e) {
+	        e.printStackTrace();
+	    }
+	    return count;
+	}
+
 
 }

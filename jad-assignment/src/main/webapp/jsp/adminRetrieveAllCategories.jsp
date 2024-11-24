@@ -14,13 +14,13 @@
 <title>All Categories</title>
 </head>
 <body>
+
     <h1>All Categories</h1>
     <table border="1">
         <thead>
             <tr>
                 <th>Category Name</th>
                 <th>Price</th>
-                <th>Actions</th>
             </tr>
         </thead>
         <tbody>
@@ -37,8 +37,8 @@
             <tr>
                 <td><%= category.getCategoryName() %></td>
                 <td>
-                    <button class="btn-update" onclick="location.href='updateCategory.jsp<%userSession.setAttribute("categoryId", category.getId()); %>'">Update</button>
-                    <button class="btn-delete" onclick="if(confirm('Are you sure you want to delete this service?')) location.href='deleteCategory.jsp<%userSession.setAttribute("categoryId", category.getId()); %>'">Delete</button>
+                    <button class="btn-update" onclick="location.href='adminUpdateCategory.jsp<%userSession.setAttribute("categoryId", category.getId()); %>'">Update</button>
+                    <button class="btn-delete" onclick="if(confirm('Are you sure you want to delete this service?')) location.href='adminDeleteCategory.jsp<%userSession.setAttribute("categoryId", category.getId()); %>'">Delete</button>
                 </td>
             </tr>
             <%

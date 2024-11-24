@@ -22,7 +22,7 @@
             <label for="password">Password</label>
             <div class="password-container">
                 <input type="password" id="password" name="password" required>
-                <img src="../images/eye-close-password.png" id="eye-close-password">
+                <img src="../gallery/eye-close-password.png" id="eye-close-password">
             </div>
             <input type="submit" value="Login">
         </form>
@@ -42,7 +42,6 @@
         if (user != null) {
         	
         	int roleId = user.getRole();
-        	System.out.println(roleId + "roleid");
         	session.setAttribute("userRole", roleId);
             session.setAttribute("userId", user.getId());
             Integer userId = (Integer)session.getAttribute("userId");
@@ -56,6 +55,7 @@
             %>
         	<script>alert('Login Successful!')</script>
         	<%
+        	
             if(roleId == 1){
             	response.sendRedirect("adminDashboard.jsp");
             }else if(roleId == 2){
@@ -68,6 +68,35 @@
        	}
     }
     %>
+    
+    <!-- For show password -->
+    <script>
+    function togglePasswordVisibility(inputField, icon) {
+        if (inputField.type === "password") {
+            inputField.type = "text";
+            icon.src = "../gallery/eye-open-password.png";
+        } else {
+            inputField.type = "password";
+            icon.src = "../gallery/eye-close-password.png";
+        }
+    }
+    function setupPasswordToggle() {
+        const eyePassword = document.getElementById("eye-close-password");
+        const eyeRepassword = document.getElementById("eye-close-repassword");
+        const password = document.getElementById("password");
+        const repassword = document.getElementById("repassword");
+
+        eyePassword.onclick = function () {
+            togglePasswordVisibility(password, eyePassword);
+        };
+
+        eyeRepassword.onclick = function () {
+            togglePasswordVisibility(repassword, eyeRepassword);
+        };
+    }
+    window.addEventListener("DOMContentLoaded", setupPasswordToggle);
+
+    </script>
 </body>
 
 </html>

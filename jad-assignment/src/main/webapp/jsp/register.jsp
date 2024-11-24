@@ -9,7 +9,7 @@
     <title>Register</title>
     
 </head>
-<body>4
+<body>
 <div class="register-card">
         <h2>Register</h2>
         <form method="post">
@@ -20,8 +20,17 @@
 	        <label for="email">Email:</label>
 	        <input type="email" id="email" name="email" required><br><br>
 	
-	        <label for="password">Password:</label>
-	        <input type="password" id="password" name="password" required><br><br>
+	        <label for="password">Password</label>
+            <div class="password-container">
+                <input type="password" id="password" name="password" required>
+                <img src="../gallery/eye-close-password.png" id="eye-close-password">
+            </div><br>
+
+            <label for="repassword">Confirm Password</label>
+            <div class="password-container">
+                <input type="password" id="repassword" name="repassword" required>
+                <img src="../gallery/eye-close-password.png" id="eye-close-repassword">
+            </div><br>
 	
 			<label for="phoneNum">Phone Number: </label>
 	        <input type="tel" id="phoneNum" name="phoneNum" required><br><br>
@@ -36,29 +45,71 @@
     </div>
 
     <%
+    
         if ("POST".equalsIgnoreCase(request.getMethod())) {
             String name = request.getParameter("name");
             String email = request.getParameter("email");
             String password = request.getParameter("password");
+            String repassword = request.getParameter("repassword");
             String phoneNumStr = request.getParameter("phoneNum");
             Integer phoneNum = Integer.parseInt(phoneNumStr);
             String address = request.getParameter("address");
             Integer role = 2;
+            
+            if(!password.equals(repassword)){
+            	%>
+            	<script>alert('Password and repassword are not the same')</script>
+            	<%        
 
-            // Create a User object
-            User user = new User(name, email, password, phoneNum, address, role);
+            }else{
+            	// Create a User object
+                User user = new User(name, email, password, phoneNum, address, role);
 
-            // Call the UserDAO to register the user
-            UserDAO userDAO = new UserDAO();
-            boolean success = userDAO.registerUser(user);
+                // Call the UserDAO to register the user
+                UserDAO userDAO = new UserDAO();
+                boolean success = userDAO.registerUser(user);
 
-            if (success) {
-            	session.setAttribute("username", name);
-                out.println("<p>Registration successful!</p>");
-            } else {
-                out.println("<p>Error during registration. Please try again.</p>");
+                if (success) {
+                	session.setAttribute("username", name);
+                	%>
+                	<script>alert('Registered successful!')</script>
+                	<%
+                	response.sendRedirect("login.jsp");
+                } else {
+                	%>
+                	<script>alert('Registered failed!')</script>
+                	<%
+                }
             }
         }
     %>
+    
+    <script>
+    function togglePasswordVisibility(inputField, icon) {
+        if (inputField.type === "password") {
+            inputField.type = "text";
+            icon.src = "../gallery/eye-open-password.png";
+        } else {
+            inputField.type = "password";
+            icon.src = "../gallery/eye-close-password.png";
+        }
+    }
+    function setupPasswordToggle() {
+        const eyePassword = document.getElementById("eye-close-password");
+        const eyeRepassword = document.getElementById("eye-close-repassword");
+        const password = document.getElementById("password");
+        const repassword = document.getElementById("repassword");
+
+        eyePassword.onclick = function () {
+            togglePasswordVisibility(password, eyePassword);
+        };
+
+        eyeRepassword.onclick = function () {
+            togglePasswordVisibility(repassword, eyeRepassword);
+        };
+    }
+    window.addEventListener("DOMContentLoaded", setupPasswordToggle);
+
+    </script>
 </body>
 </html>

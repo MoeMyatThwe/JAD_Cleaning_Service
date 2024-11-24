@@ -17,6 +17,7 @@
     if (authToken == null || !TokenUtil.isTokenValid(authToken)) {
         // Redirect to the login page if the token is invalid
         response.sendRedirect("login.jsp");
+        return;
     }
 %>
 </body>

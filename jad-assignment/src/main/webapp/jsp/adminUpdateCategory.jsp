@@ -94,8 +94,9 @@
             		if(isUpdate){
             			%>
             			<script>alert('Category name updated successfully.')</script>
-            			response.sendRedirect("adminRetrieveAllCategory.jsp");
             			<%
+            			response.sendRedirect("adminRetrieveAllCategory.jsp");
+
             		}else{
             			%>
             			<script>alert('Failed to update category name.')</script>

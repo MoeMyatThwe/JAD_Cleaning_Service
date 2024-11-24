@@ -1,64 +1,70 @@
 package com.cleaningService.servlet;
 
-import com.cleaningService.dao.ServiceDAO;
-import jakarta.servlet.ServletException;
-import jakarta.servlet.annotation.MultipartConfig;
+import java.io.*;
+
+import org.jose4j.json.internal.json_simple.JSONArray;
+
+import jakarta.servlet.*;
 import jakarta.servlet.annotation.WebServlet;
-import jakarta.servlet.http.HttpServlet;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
-import jakarta.servlet.http.Part;
+import jakarta.servlet.http.*;
+import com.cleaningService.dao.ServiceDAO;
+import org.jose4j.json.internal.json_simple.JSONArray;
 
-import java.io.File;
-import java.io.IOException;
-
-@WebServlet("/UpdatePhotoServlet")
-@MultipartConfig
+@WebServlet("/updatePhoto")
 public class UpdatePhotoServlet extends HttpServlet {
+    @Override
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        String galleryPath = getServletContext().getRealPath("/gallery/updatePhoto");
+        File galleryDir = new File(galleryPath);
+        
+        if (galleryDir.exists() && galleryDir.isDirectory()) {
+            String[] imageFiles = galleryDir.list((dir, name) -> name.toLowerCase().endsWith(".jpg") || name.toLowerCase().endsWith(".png"));
+            
+            JSONArray jsonImages = new JSONArray();
+            
+            if (imageFiles != null) {
+                for (String imageFile : imageFiles) {
+                	
+                    String imagePath = "/gallery/updatePhoto/" + imageFile;
+                    jsonImages.add(imagePath); 
+                    
+                }
+            }
+            
+            response.setContentType("application/json");
+            PrintWriter out = response.getWriter();
+            out.print(jsonImages.toString());
+            out.flush();
+        } else {
+            response.setStatus(HttpServletResponse.SC_NOT_FOUND);
+        }
+    }
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        response.setContentType("text/html;charset=UTF-8");
+    	
+    	String serviceIdStr = request.getParameter("serviceId");
+        String selectedPhoto = request.getParameter("photo");
+        
+        System.out.println(serviceIdStr);
+        
 
-        try {
-            // Retrieve the service ID from the form
-            String serviceId = request.getParameter("serviceId");
-            Part filePart = request.getPart("photo");
-
-            // Validate if a file is uploaded
-            if (filePart != null && filePart.getSize() > 0) {
-                // Get the file name
-                String fileName = filePart.getSubmittedFileName();
-
-                // Define the upload path to `webapp/images/`
-                String uploadPath = getServletContext().getRealPath("") + "images";
-                File uploadDir = new File(uploadPath);
-
-                // Create the images directory if it doesn't exist
-                if (!uploadDir.exists()) {
-                    uploadDir.mkdir();
-                }
-
-                // Save the file
-                String filePath = uploadPath + File.separator + fileName;
-                filePart.write(filePath);
-
-                // Update the database with the new image filename
-                ServiceDAO serviceDAO = new ServiceDAO();
-                boolean isUpdated = serviceDAO.updateServicePhoto(Integer.parseInt(serviceId), fileName);
-
-                if (isUpdated) {
-                    response.getWriter().println("<script>alert('Service photo updated successfully!');"
-                            + "window.location.href='adminRetrieveServices.jsp';</script>");
-                } else {
-                    response.getWriter().println("<script>alert('Failed to update service photo in the database.');</script>");
-                }
+        if (serviceIdStr != null && selectedPhoto != null) {
+        	int serviceId = Integer.parseInt(serviceIdStr);
+            ServiceDAO serviceDAO = new ServiceDAO();
+            boolean isUpdated = serviceDAO.updateServicePhoto(serviceId, selectedPhoto);
+            
+            if (isUpdated) {
+                response.setStatus(HttpServletResponse.SC_OK);
+                response.getWriter().write("Photo updated successfully.");
             } else {
-                response.getWriter().println("<script>alert('No file selected. Please choose a file.');</script>");
+                response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+                response.getWriter().write("Failed to update photo.");
             }
-        } catch (Exception e) {
-            e.printStackTrace();
-            response.getWriter().println("<script>alert('An error occurred. Please try again.');</script>");
+        } else {
+            response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+            response.getWriter().write("Invalid input.");
+            return;
         }
     }
 }

@@ -1,37 +1,41 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-    <%@ include file="authCheck.jsp" %>
-    
+<%@ page import = "java.util.List" %>
+<%@ include file="authCheck.jsp" %>
+<%@page import = "com.cleaningService.dao.ServiceDAO" %>
+<%@page import = "com.cleaningService.dao.BookingDAO" %>
+<%@page import = "com.cleaningService.dao.FeedbackDAO" %>
+<%@page import = "com.cleaningService.model.Booking" %>
+<%@ include file="../html/adminNavbar.html" %>
+   
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
+<link rel="stylesheet" type="text/css" href="../css/adminDashboard.css">
 <title>Admin Dashboard</title>
-    <link rel="stylesheet" href="../css/adminDashboard.css">
-
 </head>
 <body>
 <%
 Integer loggedInUserRoleId = (Integer) session.getAttribute("userRole");
-System.out.println(loggedInUserRoleId);
 if(loggedInUserRoleId == null || loggedInUserRoleId == 2){
 	response.sendRedirect("login.jsp");
+	return;	
 }
+
+
+ServiceDAO serviceDAO = new ServiceDAO();
+BookingDAO bookingDAO = new BookingDAO();
+FeedbackDAO feedbackDAO = new FeedbackDAO();
+int numOfServices = serviceDAO.retrieveNumberOfServices();
+int numOfBookings = bookingDAO.retrieveBookingNum();
+int numOfFeedbacks =feedbackDAO.retrieveFeedbackNum();
 %>
-    <!-- Sidebar -->
-    <div class="sidebar">
-        <h2>Cleaning Service</h2>
-        <ul>
-            <li><a href="#">Dashboard</a></li>
-            <li><a href="#">Manage Bookings</a></li>
-            <li><a href="#">Manage Cleaners</a></li>
-            <li><a href="#">Customer Feedback</a></li>
-            <li><a href="#">Logout</a></li>
-        </ul>
-    </div>
+    
 
     <!-- Main Content -->
     <div class="main-content">
+    
         <header>
             <h1>Admin Dashboard</h1>
             <p>Welcome back, Admin!</p>
@@ -41,55 +45,81 @@ if(loggedInUserRoleId == null || loggedInUserRoleId == 2){
         <div class="summary-cards">
         	<div class="card">
         		<h3>Total Services</h3>
-        		<p>23</p>
+        		<p><%=numOfServices%></p>
         	</div>
         
             <div class="card">
                 <h3>Total Bookings</h3>
-                <p>120</p>
+                <p><%=numOfBookings%></p>
             </div>
             
             <div class="card">
                 <h3>Customer Feedbacks</h3>
-                <p>40</p>
+                <p><%=numOfFeedbacks%></p>
             </div>    
         </div>
 
         <!-- Bookings Table -->
-        <div class="table-section">
-            <h2>Recent Bookings</h2>
-            <table>
-                <thead>
-                    <tr>
-                        <th>Booking ID</th>
-                        <th>Customer Name</th>
-                        <th>Service</th>
-                        <th>Status</th>
-                        <th>Date</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>1001</td>
-                        <td>John Doe</td>
-                        <td>Deep Cleaning</td>
-                        <td>Completed</td>
-                        <td>2024-11-15</td>
-                        <td><button>Edit</button> <button>Delete</button></td>
-                    </tr>
-                    <tr>
-                        <td>1002</td>
-                        <td>Jane Smith</td>
-                        <td>Carpet Cleaning</td>
-                        <td>Pending</td>
-                        <td>2024-11-16</td>
-                        <td><button>Edit</button> <button>Delete</button></td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
-    </div>
+        <%
+        Booking booking = new Booking();
+    	List<Booking> bookings = bookingDAO.retrieveAllBookings();
+    	
+    	if(numOfBookings == 0){
+    		%>
+    		<p>There is no booking yet.</p>
+    		<%
+    	}else{
+    			
+		%>
 
+		<div class="table-section">
+		    <h2>Recent Bookings</h2>
+		    <table>
+		        <thead>
+		            <tr>
+		                <th>Booking ID</th>
+		                <th>Customer Name</th>
+		                <th>Service</th>
+		                <th>Date</th>
+		                <th>Time</th>
+		            </tr>
+		        </thead>
+		        <tbody>
+		            <%-- Loop through all bookings and display them in table rows --%>
+		            <%
+		                for (Booking bookingList : bookings) {
+		                	System.out.print(booking.getId());
+	                        System.out.print(booking.getCustomerName());
+	                         
+		            %>
+		                    <tr>
+		                        <td><%= booking.getId() %></td>
+		                        
+		                        
+		                        <td><%= booking.getCustomerName() %></td>
+		                        <td><%= booking.getServiceName() %></td>
+		                        <td><%= booking.getDate() %></td>
+		                        <td><%= booking.getTime() %></td>
+		                    </tr>
+		            <%
+		                }
+		            %>
+		        </tbody>
+		    </table>
+		</div>
+    </div>
+    <%
+    }
+    %>
+
+<script>
+    const menuToggle = document.querySelector('.menu-toggle');
+    const navMenu = document.querySelector('.navbar ul');
+
+    menuToggle.addEventListener('click', () => {
+        navMenu.classList.toggle('show');
+    });
+</script>
 
 </body>
 </html>
