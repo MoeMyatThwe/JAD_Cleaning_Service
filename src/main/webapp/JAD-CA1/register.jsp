@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" session="true" %>
 <%@ page import="com.cleaningService.dao.UserDAO" %>
 <%@ page import="com.cleaningService.model.User" %>
+<%@ page import="jakarta.servlet.http.Cookie" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -43,10 +44,19 @@
 
             // Call UserDAO to save user
             UserDAO userDAO = new UserDAO();
-            boolean success = userDAO.registerUser(user);
+            int userId = userDAO.registerUser(user);
 
-            if (success) {
-                session.setAttribute("username", name); // Save user name to session
+            if (userId > 0) { // If registration is successful
+                // Set session attributes
+                session.setAttribute("userId", userId);
+                session.setAttribute("username", name);
+
+                // Optionally set a cookie for persistent login
+                Cookie userIdCookie = new Cookie("userId", String.valueOf(userId));
+                userIdCookie.setMaxAge(60 * 60 * 24 * 7); // 7 days
+                response.addCookie(userIdCookie);
+
+                // Redirect to home or profile
                 response.sendRedirect("home.jsp");
             } else {
                 out.println("<p style='color:red;'>Error during registration. Please try again.</p>");

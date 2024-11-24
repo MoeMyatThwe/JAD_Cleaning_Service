@@ -1,6 +1,6 @@
-<%
-    String user = (String) session.getAttribute("user");
-    if (user == null || user.isEmpty()) {
+<% 
+    if (session.getAttribute("userId") == null) {
         response.sendRedirect("login.jsp");
+        return;
     }
 %>

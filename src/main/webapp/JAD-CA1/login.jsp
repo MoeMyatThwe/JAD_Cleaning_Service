@@ -37,6 +37,11 @@
             session.setAttribute("username", user.getName());
             session.setAttribute("role", user.getRole());
 
+         // Save user ID in a cookie
+            Cookie userCookie = new Cookie("userId", String.valueOf(user.getId()));
+            userCookie.setMaxAge(60 * 60 * 24); // 1-day expiry
+            response.addCookie(userCookie);
+            
             // Redirect based on role
             if ("admin".equals(user.getRole())) {
                 response.sendRedirect("dashboard.jsp");

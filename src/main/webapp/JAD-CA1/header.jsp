@@ -1,8 +1,29 @@
 <%@ page session="true" %>
+<%@ page import="jakarta.servlet.http.Cookie" %>
 <%
-Integer userId = (Integer) session.getAttribute("userId"); // Retrieve user ID from session
-String username = (String) session.getAttribute("username");
-String role = (String) session.getAttribute("role"); // Retrieve role from session
+    // Check if userId is already defined to avoid duplicate declaration
+    Integer userId = (Integer) session.getAttribute("userId");
+    if (userId == null) {
+        // Attempt to retrieve userId from cookies
+        Cookie[] cookies = request.getCookies();
+        if (cookies != null) {
+            for (Cookie cookie : cookies) {
+                if ("userId".equals(cookie.getName())) {
+                    try {
+                        userId = Integer.parseInt(cookie.getValue());
+                        session.setAttribute("userId", userId); // Restore session userId
+                    } catch (NumberFormatException e) {
+                        // Handle invalid cookie value (optional)
+                    }
+                    break;
+                }
+            }
+        }
+    }
+
+    // Retrieve other session attributes
+    String username = (String) session.getAttribute("username");
+    String role = (String) session.getAttribute("role");
 %>
 <header>
     <nav>
